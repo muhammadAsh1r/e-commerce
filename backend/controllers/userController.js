@@ -2,7 +2,49 @@ const bcrypt = require("bcryptjs");
 
 const User = require("../models/User");
 
-exports.getUsers = async (req, res) => {
+exports.deleteUser = async (req, res) => {
+  try {
+    const userId = req.params.id;
+
+    const deletedUser = await User.findByIdAndDelete(userId);
+
+    if (!deletedUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.status(200).json({ message: "User deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+exports.updateUser = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const updates = req.body;
+
+    if (updates.password) {
+      return res
+        .status(400)
+        .json({ message: "Password update not allowed here" });
+    }
+
+    const updatedUser = await User.findByIdAndUpdate(userId, updates, {
+      new: true,
+      runValidators: true,
+    });
+
+    if (!updatedUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.status(200).json({ message: "User updated", user: updatedUser });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+exports.getAllUsers = async (req, res) => {
   try {
     const user = await User.find();
     res.json(user);
@@ -11,7 +53,7 @@ exports.getUsers = async (req, res) => {
   }
 };
 
-exports.addUser = async (req, res) => {
+exports.createUser = async (req, res) => {
   try {
     const { name, email, password, role, address, phone } = req.body;
 
