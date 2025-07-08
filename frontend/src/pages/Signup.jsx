@@ -1,137 +1,160 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import FlashMessage from "../components/FlashMessage";
+import { signupUser, clearMessages } from "../features/user/userSlice";
 
 const Signup = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [shouldRedirect, setShouldRedirect] = useState(false); // NEW
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
     confirmPassword: "",
+    role: "user",
+    address: "",
+    phone: "",
   });
 
+  const { loading, error, successMessage } = useSelector((state) => state.user);
+
   const handleChange = (e) => {
-    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    setFormData((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Add signup logic here
-    alert(`Signing up ${formData.name}`);
+
+    if (formData.password !== formData.confirmPassword) {
+      alert("Passwords do not match");
+      dispatch(clearMessages());
+      return;
+    }
+
+    const { confirmPassword, ...payload } = formData;
+    dispatch(signupUser(payload)).then((res) => {
+      if (!res.error) {
+        setShouldRedirect(true);
+      }
+    });
   };
 
-  return (
-    <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <h2 className="text-center text-3xl font-extrabold text-teal-500">
-          Create your account
-        </h2>
-        <p className="mt-2 text-center text-sm text-gray-600 max-w">
-          Or{" "}
-          <a
-            href="/login"
-            className="font-medium text-teal-500 hover:text-teal-600"
-          >
-            sign in to your existing account
-          </a>
-        </p>
-      </div>
+  useEffect(() => {
+    if (shouldRedirect && successMessage) {
+      const timer = setTimeout(() => {
+        navigate("/login");
+        dispatch(clearMessages());
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [shouldRedirect, successMessage, navigate, dispatch]);
 
-      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="bg-white py-8 px-6 shadow rounded-lg sm:px-10">
-          <form className="space-y-6" onSubmit={handleSubmit}>
-            <div>
-              <label
-                htmlFor="name"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Full Name
-              </label>
+  return (
+    <>
+      <FlashMessage
+        type={error ? "error" : successMessage ? "success" : ""}
+        message={error || successMessage || ""}
+        onClose={() => dispatch(clearMessages())}
+      />
+      <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8">
+        <div className="sm:mx-auto sm:w-full sm:max-w-md">
+          <h2 className="text-center text-3xl font-extrabold text-teal-500">
+            Create your account
+          </h2>
+          <p className="mt-2 text-center text-sm text-gray-600">
+            Or{" "}
+            <a
+              href="/login"
+              className="text-teal-500 hover:text-teal-600 font-medium"
+            >
+              sign in to your existing account
+            </a>
+          </p>
+        </div>
+
+        <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+          <div className="bg-white py-8 px-6 shadow rounded-lg sm:px-10">
+            <form className="space-y-5" onSubmit={handleSubmit}>
               <input
-                id="name"
-                name="name"
                 type="text"
+                name="name"
                 required
+                placeholder="Full Name"
                 value={formData.name}
                 onChange={handleChange}
-                className="mt-1 block w-full px-3 py-2 border border-gray-200 rounded-md shadow-sm placeholder-gray-400
-                           focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm"
-                placeholder="Your full name"
+                className="w-full px-3 py-2 border border-gray-200 rounded-md focus:ring-teal-500 focus:border-teal-500 sm:text-sm"
               />
-            </div>
 
-            <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Email address
-              </label>
               <input
-                id="email"
-                name="email"
                 type="email"
-                autoComplete="email"
+                name="email"
                 required
+                placeholder="Email"
                 value={formData.email}
                 onChange={handleChange}
-                className="mt-1 block w-full px-3 py-2 border border-gray-200 rounded-md shadow-sm placeholder-gray-400
-                           focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm"
-                placeholder="you@example.com"
+                className="w-full px-3 py-2 border border-gray-200 rounded-md focus:ring-teal-500 focus:border-teal-500 sm:text-sm"
               />
-            </div>
 
-            <div>
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Password
-              </label>
               <input
-                id="password"
-                name="password"
                 type="password"
+                name="password"
                 required
+                placeholder="Password"
                 value={formData.password}
                 onChange={handleChange}
-                className="mt-1 block w-full px-3 py-2 border border-gray-200 rounded-md shadow-sm placeholder-gray-400
-                           focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm"
-                placeholder="••••••••"
+                className="w-full px-3 py-2 border border-gray-200 rounded-md focus:ring-teal-500 focus:border-teal-500 sm:text-sm"
               />
-            </div>
 
-            <div>
-              <label
-                htmlFor="confirmPassword"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Confirm Password
-              </label>
               <input
-                id="confirmPassword"
-                name="confirmPassword"
                 type="password"
+                name="confirmPassword"
                 required
+                placeholder="Confirm Password"
                 value={formData.confirmPassword}
                 onChange={handleChange}
-                className="mt-1 block w-full px-3 py-2 border border-gray-200 rounded-md shadow-sm placeholder-gray-400
-                           focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm"
-                placeholder="••••••••"
+                className="w-full px-3 py-2 border border-gray-200 rounded-md focus:ring-teal-500 focus:border-teal-500 sm:text-sm"
               />
-            </div>
 
-            <div>
+              <input
+                type="text"
+                name="phone"
+                required
+                placeholder="Phone Number"
+                value={formData.phone}
+                onChange={handleChange}
+                className="w-full px-3 py-2 border border-gray-200 rounded-md focus:ring-teal-500 focus:border-teal-500 sm:text-sm"
+              />
+
+              <input
+                type="text"
+                name="address"
+                required
+                placeholder="Address"
+                value={formData.address}
+                onChange={handleChange}
+                className="w-full px-3 py-2 border border-gray-200 rounded-md focus:ring-teal-500 focus:border-teal-500 sm:text-sm"
+              />
+
               <button
                 type="submit"
-                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm
-                           text-white bg-teal-500 hover:bg-teal-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-400"
+                disabled={loading}
+                className={`w-full flex justify-center py-2 px-4 rounded-md text-white bg-teal-500 hover:bg-teal-600
+                  focus:ring-2 focus:ring-offset-2 focus:ring-teal-400
+                  ${loading ? "opacity-50 cursor-not-allowed" : ""}`}
               >
-                Sign up
+                {loading ? "Signing up..." : "Sign Up"}
               </button>
-            </div>
-          </form>
+            </form>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
