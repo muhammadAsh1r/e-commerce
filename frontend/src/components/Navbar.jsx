@@ -25,7 +25,7 @@ const Navbar = () => {
           </div>
 
           {/* Desktop Links */}
-          <div className="hidden md:flex space-x-6">
+          <div className="hidden md:flex space-x-6 items-center">
             <Link to="/" className="text-gray-700 hover:text-teal-500 font-medium">
               Home
             </Link>
