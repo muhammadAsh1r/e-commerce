@@ -6,6 +6,7 @@ import {
   fetchByCategory,
   clearSingleProduct,
   createProduct,
+  updateProduct,
 } from "../../features/product/productSlice";
 
 import ProductFilterForm from "./ProductFilterForm";
@@ -14,13 +15,18 @@ import AddProductModal from "./AddProductModal";
 
 const AdminProducts = () => {
   const dispatch = useDispatch();
-  const { items: products, loading, error } = useSelector((state) => state.products);
+  const {
+    items: products,
+    loading,
+    error,
+  } = useSelector((state) => state.products);
 
   const [priceFilter, setPriceFilter] = useState({ min: "", max: "" });
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [adding, setAdding] = useState(false);
-  const [addError, setAddError] = useState(null);
+  const [editingProduct, setEditingProduct] = useState(null);
+  const [saving, setSaving] = useState(false);
+  const [saveError, setSaveError] = useState(null);
 
   useEffect(() => {
     if (selectedCategory === "All") {
@@ -38,28 +44,37 @@ const AdminProducts = () => {
   };
 
   const handleAddProductClick = () => {
-    setAddError(null);
+    setEditingProduct(null); // clear editing
+    setSaveError(null);
     setIsModalOpen(true);
   };
 
-  const handleAddProduct = async (productData) => {
-    setAdding(true);
-    setAddError(null);
+  const handleEditProduct = (product) => {
+    setEditingProduct(product);
+    setSaveError(null);
+    setIsModalOpen(true);
+  };
+
+  const handleSaveProduct = async (productData) => {
+    setSaving(true);
+    setSaveError(null);
     try {
-      await dispatch(createProduct(productData)).unwrap();
+      if (editingProduct) {
+        await dispatch(
+          updateProduct({ id: editingProduct._id, updates: productData })
+        ).unwrap();
+      } else {
+        await dispatch(createProduct(productData)).unwrap();
+      }
       setIsModalOpen(false);
+      setEditingProduct(null);
     } catch (err) {
-      setAddError(err.message || "Failed to add product");
+      setSaveError(err.message || "Failed to save product");
     } finally {
-      setAdding(false);
+      setSaving(false);
     }
   };
 
-  const handleEditProduct = (product) => {
-    alert(`Edit functionality for ${product.name} not implemented yet`);
-  };
-
-  // Filter products by price locally
   const filteredProducts = products.filter((product) => {
     const price = product.price || 0;
     const min = parseFloat(priceFilter.min);
@@ -72,7 +87,9 @@ const AdminProducts = () => {
   return (
     <div className="min-h-screen bg-gray-50 p-8">
       <div className="max-w-7xl mx-auto bg-white rounded-md shadow p-6">
-        <h1 className="text-teal-500 text-3xl font-semibold mb-6">Manage Products</h1>
+        <h1 className="text-teal-500 text-3xl font-semibold mb-6">
+          Manage Products
+        </h1>
 
         <ProductFilterForm
           priceFilter={priceFilter}
@@ -92,10 +109,14 @@ const AdminProducts = () => {
 
         <AddProductModal
           isOpen={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
-          onAddProduct={handleAddProduct}
-          loading={adding}
-          error={addError}
+          onClose={() => {
+            setIsModalOpen(false);
+            setEditingProduct(null);
+          }}
+          onAddProduct={handleSaveProduct}
+          loading={saving}
+          error={saveError}
+          initialData={editingProduct}
         />
       </div>
     </div>

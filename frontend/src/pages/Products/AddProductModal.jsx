@@ -2,7 +2,14 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCategories } from "../../features/category/categorySlice";
 
-const AddProductModal = ({ isOpen, onClose, onAddProduct, loading, error }) => {
+const AddProductModal = ({
+  isOpen,
+  onClose,
+  onAddProduct,
+  loading,
+  error,
+  initialData,
+}) => {
   const dispatch = useDispatch();
   const { items: categories } = useSelector((state) => state.categories);
 
@@ -13,12 +20,33 @@ const AddProductModal = ({ isOpen, onClose, onAddProduct, loading, error }) => {
     stock: "",
   });
 
-  // Fetch categories from backend
+  // ✅ Fetch categories when modal opens
   useEffect(() => {
-    dispatch(fetchCategories());
-  }, [dispatch]);
+    if (isOpen) {
+      dispatch(fetchCategories());
+    }
+  }, [dispatch, isOpen]);
 
-  // Set default category after categories load
+  // ✅ Set formData from initialData (for editing)
+  useEffect(() => {
+    if (initialData) {
+      setFormData({
+        name: initialData.name || "",
+        category: initialData.category?._id || initialData.category || "",
+        price: initialData.price || "",
+        stock: initialData.stock || "",
+      });
+    } else {
+      setFormData({
+        name: "",
+        category: "",
+        price: "",
+        stock: "",
+      });
+    }
+  }, [initialData]);
+
+  // ✅ Set default category after categories load
   useEffect(() => {
     if (categories.length > 0 && !formData.category) {
       setFormData((prev) => ({ ...prev, category: categories[0]._id }));
@@ -47,7 +75,7 @@ const AddProductModal = ({ isOpen, onClose, onAddProduct, loading, error }) => {
 
     onAddProduct({
       name: formData.name,
-      category: formData.category, // this will be the category ID
+      category: formData.category,
       price: parseFloat(formData.price),
       stock: parseInt(formData.stock, 10) || 0,
     });
@@ -56,10 +84,14 @@ const AddProductModal = ({ isOpen, onClose, onAddProduct, loading, error }) => {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-30 flex justify-center items-center z-50">
       <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
-        <h2 className="text-xl font-semibold text-teal-500 mb-4">Add New Product</h2>
+        <h2 className="text-xl font-semibold text-teal-500 mb-4">
+          {initialData ? "Edit Product" : "Add New Product"}
+        </h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-gray-700 font-medium mb-1" htmlFor="name">Name</label>
+            <label className="block text-gray-700 font-medium mb-1" htmlFor="name">
+              Name
+            </label>
             <input
               type="text"
               id="name"
@@ -72,7 +104,9 @@ const AddProductModal = ({ isOpen, onClose, onAddProduct, loading, error }) => {
           </div>
 
           <div>
-            <label className="block text-gray-700 font-medium mb-1" htmlFor="category">Category</label>
+            <label className="block text-gray-700 font-medium mb-1" htmlFor="category">
+              Category
+            </label>
             <select
               id="category"
               name="category"
@@ -89,7 +123,9 @@ const AddProductModal = ({ isOpen, onClose, onAddProduct, loading, error }) => {
           </div>
 
           <div>
-            <label className="block text-gray-700 font-medium mb-1" htmlFor="price">Price ($)</label>
+            <label className="block text-gray-700 font-medium mb-1" htmlFor="price">
+              Price ($)
+            </label>
             <input
               type="number"
               step="0.01"
@@ -104,7 +140,9 @@ const AddProductModal = ({ isOpen, onClose, onAddProduct, loading, error }) => {
           </div>
 
           <div>
-            <label className="block text-gray-700 font-medium mb-1" htmlFor="stock">Stock</label>
+            <label className="block text-gray-700 font-medium mb-1" htmlFor="stock">
+              Stock
+            </label>
             <input
               type="number"
               min="0"
@@ -131,7 +169,7 @@ const AddProductModal = ({ isOpen, onClose, onAddProduct, loading, error }) => {
               disabled={loading}
               className="px-4 py-2 rounded bg-teal-500 hover:bg-teal-600 text-white"
             >
-              {loading ? "Adding..." : "Add Product"}
+              {loading ? (initialData ? "Updating..." : "Adding...") : initialData ? "Update" : "Add Product"}
             </button>
           </div>
         </form>
