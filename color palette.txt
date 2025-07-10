@@ -1,0 +1,11 @@
+Tailwind Color Mapping
+
+| Element       | Color (Hex)    | Tailwind Class     |
+| :------------ | :------------- | :----------------- |
+| Background    | #f9fafb        | bg-gray-50         |
+| Card          | #ffffff        | bg-white           |
+| Border        | #e5e7eb        | border-gray-200    |
+| Heading Text  | #14b8a6        | text-teal-500      |
+| Body Text     | #374151 approx | text-gray-700      |
+| Button        | #14b8a6        | bg-teal-500        |
+| Hover Button  | #0d9488        | hover:bg-teal-600  |

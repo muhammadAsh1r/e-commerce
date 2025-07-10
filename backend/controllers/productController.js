@@ -33,7 +33,7 @@ exports.createProduct = async (req, res) => {
       .status(200)
       .json({ message: "Product added successfully", product: product });
   } catch (error) {
-    console.log("Failed to add product");
+    console.log(error.message);
     res.status(500).json({ message: "Server error: " + error.message });
   }
 };
