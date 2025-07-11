@@ -1,10 +1,8 @@
-// pages/ProductPage.jsx
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import ProductCard from "../../components/ProductCard";
 import { fetchProducts } from "../../features/product/productSlice";
 
-const Products = () => {
+const UserProducts = () => {
   const dispatch = useDispatch();
   const {
     items: products,
@@ -12,69 +10,71 @@ const Products = () => {
     error,
   } = useSelector((state) => state.products);
 
-  // Sort option state
-  // "default" = no sorting, "lowToHigh", "highToLow"
-  const [sortOption, setSortOption] = useState("default");
-
   useEffect(() => {
     dispatch(fetchProducts());
   }, [dispatch]);
 
-  // Sort products based on sortOption
-  const sortedProducts = React.useMemo(() => {
-    if (!products) return [];
-
-    if (sortOption === "lowToHigh") {
-      return [...products].sort((a, b) => a.price - b.price);
-    }
-    if (sortOption === "highToLow") {
-      return [...products].sort((a, b) => b.price - a.price);
-    }
-    // default - no sorting, return as is
-    return products;
-  }, [products, sortOption]);
-
   return (
-    <div className="bg-gray-50 min-h-screen py-8 px-4 sm:px-8">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold text-teal-500">Our Products</h1>
+    <div className="bg-gray-50 min-h-screen py-10 px-4 sm:px-6 lg:px-8">
+      {loading && (
+        <p className="text-center text-gray-700">Loading products...</p>
+      )}
+      {error && <p className="text-center text-red-500">Error: {error}</p>}
 
-        {/* Sort Dropdown */}
-        <div>
-          <label htmlFor="sort" className="mr-2 text-gray-700 font-medium">
-            Sort by:
-          </label>
-          <select
-            id="sort"
-            value={sortOption}
-            onChange={(e) => setSortOption(e.target.value)}
-            className="border border-gray-300 rounded px-3 py-1"
+      {!loading && !error && products.length === 0 && (
+        <p className="text-center text-gray-700">No products found.</p>
+      )}
+
+      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        {products.map((product) => (
+          <div
+            key={product._id}
+            className="bg-white border border-gray-200 rounded-2xl shadow-sm overflow-hidden flex flex-col"
           >
-            <option value="default">Default</option>
-            <option value="lowToHigh">Price: Low to High</option>
-            <option value="highToLow">Price: High to Low</option>
-          </select>
-        </div>
-      </div>
+            {product.images?.length > 0 ? (
+              <img
+                src={product.images[0]}
+                alt={product.name}
+                className="w-full h-48 object-cover"
+              />
+            ) : (
+              <div className="w-full h-48 bg-gray-200 flex items-center justify-center text-gray-500">
+                No Image
+              </div>
+            )}
 
-      {loading && <p className="text-gray-700">Loading...</p>}
-      {error && <p className="text-red-500">Error: {error}</p>}
+            <div className="p-4 flex flex-col flex-1">
+              <h2 className="text-xl font-semibold text-gray-700 mb-2">
+                {product.name}
+              </h2>
 
-      {!loading &&
-        !error &&
-        (!sortedProducts || sortedProducts.length === 0) && (
-          <p className="text-gray-700">No products found.</p>
-        )}
+              <p className="text-sm text-gray-600 mb-2">
+                Stock:{" "}
+                <span
+                  className={
+                    product.stock > 0 ? "text-green-600" : "text-red-500"
+                  }
+                >
+                  {product.stock > 0 ? product.stock : "Out of Stock"}
+                </span>
+              </p>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {sortedProducts &&
-          sortedProducts.length > 0 &&
-          sortedProducts.map((product) => (
-            <ProductCard key={product._id} product={product} />
-          ))}
+              <p className="text-lg font-medium text-gray-700 mt-auto mb-4">
+                PKR {product.price?.toLocaleString()}
+              </p>
+
+              <button
+                className="w-full bg-teal-500 text-white py-2 px-4 rounded-xl hover:bg-teal-600 transition-colors"
+                disabled={product.stock <= 0}
+              >
+                Add to Cart
+              </button>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );
 };
 
-export default Products;
+export default UserProducts;
