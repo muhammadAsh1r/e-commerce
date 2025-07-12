@@ -1,12 +1,30 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchCart, removeItemFromCart, clearCart } from "../features/cart/cartSlice";
+import {
+  fetchCart,
+  removeItemFromCart,
+  clearCart,
+} from "../features/cart/cartSlice";
+import { createOrder } from "../features/Order/orderSlice";
 
-const CartPage = () => {
+const Cart = () => {
   const dispatch = useDispatch();
+  const [address, setAddress] = useState(""); // 📌 New state for address
 
   const { user } = useSelector((state) => state.user);
-  const { items: cartItems, totalPrice, loading, error } = useSelector((state) => state.cart);
+
+  const {
+    items: cartItems,
+    totalPrice,
+    loading,
+    error,
+  } = useSelector((state) => state.cart);
+
+  const {
+    loading: orderLoading,
+    successMessage,
+    error: orderError,
+  } = useSelector((state) => state.order);
 
   useEffect(() => {
     if (user?.id) {
@@ -22,8 +40,32 @@ const CartPage = () => {
     dispatch(clearCart(user.id));
   };
 
+  const handleConfirmOrder = () => {
+    const orderData = {
+      userId: user.id,
+      items: cartItems.map((item) => ({
+        productId: item.productId._id,
+        quantity: item.quantity,
+        price: item.productId.price,
+      })),
+      totalAmount: totalPrice,
+      shippingAddress: address,
+    };
+
+    dispatch(createOrder(orderData)).then((res) => {
+      if (!res.error) {
+        dispatch(clearCart(user.id));
+        setAddress(""); // clear address field
+      }
+    });
+  };
+
   if (!user) {
-    return <p className="text-center text-red-500 mt-10">Please login to view your cart.</p>;
+    return (
+      <p className="text-center text-red-500 mt-10">
+        Please login to view your cart.
+      </p>
+    );
   }
 
   return (
@@ -32,6 +74,15 @@ const CartPage = () => {
 
       {loading && <p className="text-gray-600">Loading cart...</p>}
       {error && <p className="text-red-500">Error: {error}</p>}
+      {orderError && (
+        <p className="text-red-500">
+          Order Error:{" "}
+          {typeof orderError === "string" ? orderError : orderError.message}
+        </p>
+      )}
+      {successMessage && (
+        <p className="text-green-600 font-semibold">{successMessage}</p>
+      )}
 
       {!loading && cartItems.length === 0 && (
         <p className="text-gray-600">Your cart is empty.</p>
@@ -78,20 +129,47 @@ const CartPage = () => {
       </div>
 
       {cartItems.length > 0 && (
-        <div className="mt-8 flex justify-between items-center">
-          <div className="text-xl font-semibold text-gray-800">
-            Total: PKR {totalPrice.toLocaleString()}
+        <div className="mt-8 flex flex-col gap-6">
+          {/* Address Input */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Shipping Address
+            </label>
+            <input
+              type="text"
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+              placeholder="Enter shipping address"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500"
+            />
           </div>
-          <button
-            onClick={handleClearCart}
-            className="bg-red-500 text-white px-4 py-2 rounded-xl hover:bg-red-600"
-          >
-            Clear Cart
-          </button>
+
+          <div className="flex flex-col sm:flex-row gap-4 justify-between items-center">
+            <div className="text-xl font-semibold text-gray-800">
+              Total: PKR {totalPrice.toLocaleString()}
+            </div>
+
+            <div className="flex flex-col sm:flex-row gap-4">
+              <button
+                onClick={handleClearCart}
+                className="bg-red-500 text-white px-4 py-2 rounded-xl hover:bg-red-600"
+              >
+                Clear Cart
+              </button>
+
+              <button
+                onClick={handleConfirmOrder}
+                disabled={orderLoading || !address}
+                className="bg-teal-600 text-white px-4 py-2 rounded-xl hover:bg-teal-700 disabled:opacity-50"
+              >
+                {orderLoading ? "Confirming..." : "Confirm Order"}
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>
   );
 };
 
-export default CartPage;
+export default Cart;

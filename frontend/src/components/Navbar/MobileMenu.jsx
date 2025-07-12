@@ -13,6 +13,7 @@ const adminLinks = [
   { to: "/admin/transactions", label: "Transactions" },
   { to: "/admin/reports", label: "Reports" },
   { to: "/admin/settings", label: "Settings" },
+  { to: "/admin/settings", label: "History" },
 ];
 
 export const MobileMenu = ({ user, onLogout }) => {
@@ -32,6 +33,9 @@ export const MobileMenu = ({ user, onLogout }) => {
       </Link>
       <Link to="/cart" className={linkClass}>
         Cart
+      </Link>
+      <Link to="/order" className={linkClass}>
+        Order
       </Link>
 
       {user?.role === "admin" &&

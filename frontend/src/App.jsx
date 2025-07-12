@@ -13,6 +13,7 @@ import { loadUserFromStorage } from "./features/user/userSlice";
 import Category from "./pages/Category/Category";
 import Users from "./pages/Users";
 import Cart from "./pages/Cart";
+import Order from "./pages/Order";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -34,6 +35,7 @@ const App = () => {
         <Route path="/signup" element={<Signup />} />
         <Route path="/profile" element={<UserProfile />} />
         <Route path="/cart" element={<Cart />} />
+        <Route path="/order" element={<Order />} />
       </Routes>
     </Router>
   );

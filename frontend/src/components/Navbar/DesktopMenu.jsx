@@ -30,6 +30,9 @@ export const DesktopMenu = ({ user, onLogout }) => {
           <Link to="/cart" className={linkClass}>
             Cart
           </Link>
+          <Link to="/order" className={linkClass}>
+            Order
+          </Link>
         </>
       )}
 
