@@ -12,6 +12,7 @@ import { useDispatch } from "react-redux";
 import { loadUserFromStorage } from "./features/user/userSlice";
 import Category from "./pages/Category/Category";
 import Users from "./pages/Users";
+import Cart from "./pages/Cart";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -32,6 +33,7 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/profile" element={<UserProfile />} />
+        <Route path="/cart" element={<Cart />} />
       </Routes>
     </Router>
   );

@@ -1,18 +1,32 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts } from "../../features/product/productSlice";
+import { addItemToCart } from "../../features/cart/cartSlice";
 
 const UserProducts = () => {
   const dispatch = useDispatch();
+
   const {
     items: products,
     loading,
     error,
   } = useSelector((state) => state.products);
+  const { user } = useSelector((state) => state.user);
+  const { loading: cartLoading } = useSelector((state) => state.cart);
 
   useEffect(() => {
     dispatch(fetchProducts());
   }, [dispatch]);
+
+  const handleAddToCart = (productId) => {
+    if (!user) {
+      alert("Please login to add products to cart.");
+      return;
+    }
+
+    // Add quantity 1 by default on add
+    dispatch(addItemToCart({ userId: user.id, productId, quantity: 1 }));
+  };
 
   return (
     <div className="bg-gray-50 min-h-screen py-10 px-4 sm:px-6 lg:px-8">
@@ -64,10 +78,11 @@ const UserProducts = () => {
               </p>
 
               <button
-                className="w-full bg-teal-500 text-white py-2 px-4 rounded-xl hover:bg-teal-600 transition-colors"
-                disabled={product.stock <= 0}
+                className="w-full bg-teal-500 text-white py-2 px-4 rounded-xl hover:bg-teal-600 transition-colors disabled:bg-gray-400"
+                disabled={product.stock <= 0 || cartLoading}
+                onClick={() => handleAddToCart(product._id)}
               >
-                Add to Cart
+                {cartLoading ? "Adding..." : "Add to Cart"}
               </button>
             </div>
           </div>
