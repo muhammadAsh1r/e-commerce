@@ -1,23 +1,26 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom"; // <-- import useNavigate
 import {
   fetchCart,
   removeItemFromCart,
   clearCart,
 } from "../features/cart/cartSlice";
-import { createOrder } from "../features/Order/orderSlice";
+import { createOrder, clearOrderMessages } from "../features/Order/orderSlice";
 
 const Cart = () => {
   const dispatch = useDispatch();
-  const [address, setAddress] = useState(""); // 📌 New state for address
+  const navigate = useNavigate(); // <-- get navigate function
+  const [address, setAddress] = useState(""); // address input state
+  const [confirming, setConfirming] = useState(false); // local loading state
 
   const { user } = useSelector((state) => state.user);
 
   const {
     items: cartItems,
     totalPrice,
-    loading,
-    error,
+    loading: cartLoading,
+    error: cartError,
   } = useSelector((state) => state.cart);
 
   const {
@@ -32,15 +35,30 @@ const Cart = () => {
     }
   }, [dispatch, user]);
 
+  // Auto clear order messages after 3 seconds
+  useEffect(() => {
+    if (successMessage) {
+      const timer = setTimeout(() => {
+        dispatch(clearOrderMessages());
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [successMessage, dispatch]);
+
   const handleRemove = (productId) => {
     dispatch(removeItemFromCart({ userId: user.id, productId }));
   };
 
   const handleClearCart = () => {
     dispatch(clearCart(user.id));
+    setAddress(""); // clear address too
   };
 
-  const handleConfirmOrder = () => {
+  const handleConfirmOrder = async () => {
+    if (!address.trim()) return; // prevent empty address
+
+    setConfirming(true);
+
     const orderData = {
       userId: user.id,
       items: cartItems.map((item) => ({
@@ -52,12 +70,24 @@ const Cart = () => {
       shippingAddress: address,
     };
 
-    dispatch(createOrder(orderData)).then((res) => {
-      if (!res.error) {
-        dispatch(clearCart(user.id));
-        setAddress(""); // clear address field
+    try {
+      const res = await dispatch(createOrder(orderData));
+
+      if (res.meta.requestStatus === "fulfilled") {
+        await dispatch(clearCart(user.id));
+        await dispatch(fetchCart(user.id));
+        setAddress("");
+
+        // Redirect to the full external URL
+        navigate("/order");
+      } else {
+        console.error("Order creation failed", res.error);
       }
-    });
+    } catch (err) {
+      console.error("Error creating order", err);
+    } finally {
+      setConfirming(false);
+    }
   };
 
   if (!user) {
@@ -72,8 +102,8 @@ const Cart = () => {
     <div className="max-w-5xl mx-auto px-4 py-10">
       <h1 className="text-3xl font-bold text-gray-700 mb-6">Your Cart</h1>
 
-      {loading && <p className="text-gray-600">Loading cart...</p>}
-      {error && <p className="text-red-500">Error: {error}</p>}
+      {cartLoading && <p className="text-gray-600">Loading cart...</p>}
+      {cartError && <p className="text-red-500">Error: {cartError}</p>}
       {orderError && (
         <p className="text-red-500">
           Order Error:{" "}
@@ -84,7 +114,7 @@ const Cart = () => {
         <p className="text-green-600 font-semibold">{successMessage}</p>
       )}
 
-      {!loading && cartItems.length === 0 && (
+      {!cartLoading && cartItems.length === 0 && (
         <p className="text-gray-600">Your cart is empty.</p>
       )}
 
@@ -159,10 +189,10 @@ const Cart = () => {
 
               <button
                 onClick={handleConfirmOrder}
-                disabled={orderLoading || !address}
+                disabled={confirming || !address.trim()}
                 className="bg-teal-600 text-white px-4 py-2 rounded-xl hover:bg-teal-700 disabled:opacity-50"
               >
-                {orderLoading ? "Confirming..." : "Confirm Order"}
+                {confirming ? "Confirming..." : "Confirm Order"}
               </button>
             </div>
           </div>

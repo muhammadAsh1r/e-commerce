@@ -1,6 +1,8 @@
 const mongoose = require("mongoose");
 const Order = require("../models/Order");
 
+const Cart = require("../models/Cart"); // import Cart model
+
 exports.createOrder = async (req, res) => {
   try {
     const { userId, items, totalAmount, shippingAddress } = req.body;
@@ -23,6 +25,15 @@ exports.createOrder = async (req, res) => {
     });
 
     await newOrder.save();
+
+    // Clear cart after successful order creation
+    const cart = await Cart.findOne({ userId });
+    if (cart) {
+      cart.items = [];
+      cart.totalPrice = 0;
+      await cart.save();
+    }
+
     res
       .status(201)
       .json({ message: "Order created successfully", order: newOrder });

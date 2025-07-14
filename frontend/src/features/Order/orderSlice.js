@@ -99,6 +99,10 @@ const orderSlice = createSlice({
       })
       .addCase(createOrder.fulfilled, (state, action) => {
         state.loading = false;
+        // Defensive: ensure orders is array before push
+        if (!Array.isArray(state.orders)) {
+          state.orders = [];
+        }
         state.orders.push(action.payload);
         state.successMessage = "Order created successfully";
       })
@@ -114,7 +118,8 @@ const orderSlice = createSlice({
       })
       .addCase(getAllOrders.fulfilled, (state, action) => {
         state.loading = false;
-        state.orders = action.payload;
+        // Defensive: set orders only if payload is array, else empty array
+        state.orders = Array.isArray(action.payload) ? action.payload : [];
       })
       .addCase(getAllOrders.rejected, (state, action) => {
         state.loading = false;
@@ -142,6 +147,9 @@ const orderSlice = createSlice({
       })
       .addCase(updateOrderStatus.fulfilled, (state, action) => {
         state.loading = false;
+        if (!Array.isArray(state.orders)) {
+          state.orders = [];
+        }
         state.orders = state.orders.map((order) =>
           order._id === action.payload._id ? action.payload : order
         );
@@ -159,6 +167,9 @@ const orderSlice = createSlice({
       })
       .addCase(deleteOrder.fulfilled, (state, action) => {
         state.loading = false;
+        if (!Array.isArray(state.orders)) {
+          state.orders = [];
+        }
         state.orders = state.orders.filter(
           (order) => order._id !== action.payload
         );
