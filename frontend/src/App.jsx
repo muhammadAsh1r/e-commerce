@@ -14,6 +14,7 @@ import Category from "./pages/Category/Category";
 import Users from "./pages/Users";
 import Cart from "./pages/Cart";
 import Order from "./pages/Order";
+import AdminOrder from "./pages/AdminOrder";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -27,6 +28,7 @@ const App = () => {
       {/* <UserNavbar/> */}
       <Routes>
         <Route path="/admin/products" element={<Products />} />
+        <Route path="/admin/orders" element={<AdminOrder />} />
         <Route path="/admin/categories" element={<Category />} />
         <Route path="/admin/users" element={<Users />} />
         <Route path="/products" element={<UserProducts />} />

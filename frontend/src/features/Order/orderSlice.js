@@ -17,15 +17,32 @@ export const createOrder = createAsyncThunk(
   }
 );
 
-// Get all orders
+// Get all orders (admin)
 export const getAllOrders = createAsyncThunk(
   "orders/getAllOrders",
   async (_, { rejectWithValue }) => {
     try {
       const res = await axios.get("http://localhost:3000/api/orders");
-      return res.data;
+      return res.data.orders;
     } catch (err) {
       return rejectWithValue(err.response?.data || "Failed to fetch orders");
+    }
+  }
+);
+
+// Get orders by user (for user)
+export const getOrdersByUser = createAsyncThunk(
+  "orders/getOrdersByUser",
+  async (userId, { rejectWithValue }) => {
+    try {
+      const res = await axios.get(
+        `http://localhost:3000/api/orders/user/${userId}`
+      );
+      return res.data.orders;
+    } catch (err) {
+      return rejectWithValue(
+        err.response?.data || "Failed to fetch user orders"
+      );
     }
   }
 );
@@ -99,7 +116,6 @@ const orderSlice = createSlice({
       })
       .addCase(createOrder.fulfilled, (state, action) => {
         state.loading = false;
-        // Defensive: ensure orders is array before push
         if (!Array.isArray(state.orders)) {
           state.orders = [];
         }
@@ -118,10 +134,23 @@ const orderSlice = createSlice({
       })
       .addCase(getAllOrders.fulfilled, (state, action) => {
         state.loading = false;
-        // Defensive: set orders only if payload is array, else empty array
         state.orders = Array.isArray(action.payload) ? action.payload : [];
       })
       .addCase(getAllOrders.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
+      // Get orders by user
+      .addCase(getOrdersByUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getOrdersByUser.fulfilled, (state, action) => {
+        state.loading = false;
+        state.orders = Array.isArray(action.payload) ? action.payload : [];
+      })
+      .addCase(getOrdersByUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })

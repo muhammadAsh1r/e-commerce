@@ -4,7 +4,7 @@ import axios from "axios";
 
 const Order = () => {
   const user = useSelector((state) => state.user.user); // get logged-in user from redux
-  const userId = user?.id; // or user?.id based on your backend data
+  const userId = user?._id; // or user?.id based on your backend data
 
   const [orders, setOrders] = useState([]);
   const [expandedOrders, setExpandedOrders] = useState([]);
