@@ -81,7 +81,16 @@ const Cart = () => {
     );
   }
 
-  if (!cartLoading && cartItems.length === 0) {
+  if (cartLoading) {
+    return (
+      <div className="min-h-[60vh] flex flex-col items-center justify-center">
+        <div className="h-12 w-12 border-4 border-brand/30 border-t-brand rounded-full animate-spin mb-4" />
+        <p className="text-gray-500 font-bold animate-pulse">Syncing your shopping bag...</p>
+      </div>
+    );
+  }
+
+  if (cartItems.length === 0) {
     return (
       <div className="min-h-[60vh] flex flex-col items-center justify-center px-4">
         <div className="text-center">
