@@ -173,23 +173,23 @@ const Cart = () => {
 
           {/* Order Summary Sidebar */}
           <div className="lg:sticky lg:top-32 space-y-6">
-            <div className="bg-gray-900 text-white p-8 rounded-[2.5rem] shadow-2xl shadow-gray-900/20">
+            <div className="bg-white text-gray-900 p-8 rounded-[2.5rem] border border-gray-100 shadow-xl shadow-gray-200/50">
               <h2 className="text-2xl font-black mb-8">Order Summary</h2>
               
               <div className="space-y-4 mb-8">
-                <div className="flex justify-between text-gray-400 font-medium">
+                <div className="flex justify-between text-gray-500 font-medium">
                   <span>Subtotal</span>
-                  <span className="text-white">PKR {totalPrice.toLocaleString()}</span>
+                  <span className="text-gray-900">PKR {totalPrice.toLocaleString()}</span>
                 </div>
-                <div className="flex justify-between text-gray-400 font-medium">
+                <div className="flex justify-between text-gray-500 font-medium">
                   <span>Shipping</span>
-                  <span className="text-green-400 font-bold">FREE</span>
+                  <span className="text-green-600 font-bold">FREE</span>
                 </div>
-                <div className="flex justify-between text-gray-400 font-medium">
+                <div className="flex justify-between text-gray-500 font-medium">
                   <span>Tax (Estimated)</span>
-                  <span className="text-white">PKR 0</span>
+                  <span className="text-gray-900">PKR 0</span>
                 </div>
-                <div className="h-px bg-gray-800 my-4" />
+                <div className="h-px bg-gray-100 my-4" />
                 <div className="flex justify-between items-end">
                   <span className="text-lg font-bold">Total</span>
                   <span className="text-3xl font-black text-brand">PKR {totalPrice.toLocaleString()}</span>
@@ -205,7 +205,7 @@ const Cart = () => {
                     Proceed to Checkout <ArrowRight size={22} />
                   </Link>
 
-                  <div className="flex items-center gap-3 p-4 bg-gray-800 rounded-2xl border border-gray-700 opacity-60">
+                  <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-2xl border border-gray-100 opacity-60">
                     <CreditCard size={20} className="text-brand" />
                     <span className="text-sm font-bold">Secure Asset Transfer</span>
                   </div>

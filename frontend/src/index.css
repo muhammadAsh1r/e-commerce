@@ -7,8 +7,8 @@
 
 @layer base {
   body {
-    background: radial-gradient(circle at center, #ffffff 0%, #f3f4f6 100%) fixed;
-    @apply text-gray-700 font-sans;
+    background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%) fixed;
+    @apply text-gray-800 font-sans;
     min-height: 100vh;
   }
   h1, h2, h3, h4, h5, h6 {

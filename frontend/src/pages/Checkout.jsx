@@ -223,7 +223,7 @@ const Checkout = () => {
                 )}
                 
                 {step < 3 ? (
-                  <button onClick={() => setStep(step + 1)} className="flex items-center gap-3 px-10 py-5 bg-gray-900 text-white rounded-2xl font-black shadow-xl hover:bg-black transition-all hover:-translate-y-1 active:scale-95 cursor-pointer">
+                  <button onClick={() => setStep(step + 1)} className="flex items-center gap-3 px-10 py-5 bg-brand text-white rounded-2xl font-black shadow-xl shadow-brand/20 hover:bg-brand-hover transition-all hover:-translate-y-1 active:scale-95 cursor-pointer">
                     Execute Stage <ChevronRight size={20} />
                   </button>
                 ) : (
