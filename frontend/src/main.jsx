@@ -6,7 +6,12 @@ import { Provider } from "react-redux";
 import axios from "axios";
 import App from "./App.jsx";
 
-axios.defaults.baseURL = import.meta.env.VITE_API_URL || "";
+const getBaseURL = () => {
+  const url = import.meta.env.VITE_API_URL || "";
+  return url.endsWith("/") ? url.slice(0, -1) : url;
+};
+
+axios.defaults.baseURL = getBaseURL();
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>

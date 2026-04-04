@@ -15,8 +15,20 @@ const paymentRoutes = require("./routes/paymentRoutes");
 
 const app = express();
 
-app.use(cors());
+// Production CORS configuration
+app.use(cors({
+  origin: ["https://e-commerce-pi-jade.vercel.app", "http://localhost:5173"],
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true
+}));
+
 app.use(express.json());
+
+// Health check for Render
+app.get("/", (req, res) => {
+  res.status(200).json({ status: "healthy", message: "API is operational" });
+});
 
 connectDB();
 
@@ -37,5 +49,5 @@ app.use("/api/payment", paymentRoutes);
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
-  console.log(`Server running on port ${process.env.PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
