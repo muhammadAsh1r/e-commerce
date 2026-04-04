@@ -24,7 +24,7 @@ const AdminDashboard = () => {
   const { items: products } = useSelector((state) => state.products);
   const { items: categories } = useSelector((state) => state.categories);
   const { users } = useSelector((state) => state.user);
-  const { orders } = useSelector((state) => state.order);
+  const { orders = [] } = useSelector((state) => state.order || {});
 
   useEffect(() => {
     dispatch(fetchProducts());

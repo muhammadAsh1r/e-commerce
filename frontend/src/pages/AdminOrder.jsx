@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllOrders, updateOrderStatus, deleteOrder, clearOrderMessages } from "../features/Order/orderSlice";
-import { Package, MapPin, CreditCard, ChevronRight, ShoppingBag, Clock, CheckCircle2, Truck, XCircle, Search, Filter, AlertCircle, Trash2, ExternalLink } from "lucide-react";
+import { Package, MapPin, CreditCard, ChevronRight, ShoppingBag, Clock, CheckCircle2, Truck, XCircle, Search, Filter, AlertCircle, Trash2, ExternalLink, Mail, Edit3 } from "lucide-react";
 
 const AdminOrder = () => {
   const dispatch = useDispatch();
-  const { orders, loading, error, successMessage } = useSelector((state) => state.order);
+  const { orders = [], loading, error, successMessage } = useSelector((state) => state.order || {});
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
 
