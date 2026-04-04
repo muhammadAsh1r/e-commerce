@@ -107,10 +107,10 @@ const AdminDashboard = () => {
                       <td className="px-8 py-5">
                         <div className="flex items-center gap-3">
                           <div className="w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center text-[10px] font-black text-gray-400">
-                            {order.user?.name?.charAt(0) || "U"}
+                            {order.userId?.name?.charAt(0) || "U"}
                           </div>
                           <div>
-                            <p className="font-bold text-gray-900 text-sm">{order.user?.name || "Guest"}</p>
+                            <p className="font-bold text-gray-900 text-sm">{order.userId?.name || "Guest"}</p>
                             <p className="text-[10px] text-gray-400 font-medium">#{order._id.slice(-6)}</p>
                           </div>
                         </div>

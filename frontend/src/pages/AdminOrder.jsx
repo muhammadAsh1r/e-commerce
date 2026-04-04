@@ -36,8 +36,8 @@ const AdminOrder = () => {
 
   const filteredOrders = orders.filter(order => {
     const matchesSearch = order._id.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                         order.userId?.name.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesStatus = statusFilter === "all" || order.orderStatus.toLowerCase() === statusFilter.toLowerCase();
+                         (order.userId?.name || "").toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesStatus = statusFilter === "all" || (order.orderStatus || "").toLowerCase() === statusFilter.toLowerCase();
     return matchesSearch && matchesStatus;
   }).reverse();
 
@@ -111,7 +111,7 @@ const AdminOrder = () => {
                           <h3 className="font-mono font-black text-gray-900 text-lg">#{order._id.slice(-8).toUpperCase()}</h3>
                         </div>
                         <span className={`px-4 py-1.5 rounded-full border text-xs font-black transition-all ${getStatusColor(order.orderStatus)}`}>
-                          {order.orderStatus.toUpperCase()}
+                          {(order.orderStatus || "processing").toUpperCase()}
                         </span>
                       </div>
 
