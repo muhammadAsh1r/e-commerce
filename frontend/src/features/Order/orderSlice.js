@@ -79,7 +79,7 @@ export const deleteOrder = createAsyncThunk(
   "orders/deleteOrder",
   async (id, { rejectWithValue }) => {
     try {
-      await axios.delete(`http://localhost:3000/api/orders/${id}`);
+      await axios.delete(`/api/orders/${id}`);
       return id; // Return deleted ID to remove from state
     } catch (err) {
       return rejectWithValue(err.response?.data || "Failed to delete order");

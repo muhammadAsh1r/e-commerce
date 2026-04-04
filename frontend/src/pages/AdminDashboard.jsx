@@ -24,7 +24,7 @@ const AdminDashboard = () => {
   const { items: products } = useSelector((state) => state.products);
   const { items: categories } = useSelector((state) => state.categories);
   const { users } = useSelector((state) => state.user);
-  const { orders } = useSelector((state) => state.orders);
+  const { orders } = useSelector((state) => state.order);
 
   useEffect(() => {
     dispatch(fetchProducts());
@@ -33,8 +33,8 @@ const AdminDashboard = () => {
     dispatch(getAllOrders());
   }, [dispatch]);
 
-  const totalRevenue = orders.reduce((acc, order) => acc + (order.totalPrice || 0), 0);
-  const pendingOrders = orders.filter(o => o.status === 'pending').length;
+  const totalRevenue = orders.reduce((acc, order) => acc + (order.totalAmount || 0), 0);
+  const pendingOrders = orders.filter(o => o.orderStatus === 'processing').length;
   const recentOrders = [...orders].reverse().slice(0, 5);
 
   const stats = [
@@ -117,15 +117,15 @@ const AdminDashboard = () => {
                       </td>
                       <td className="px-8 py-5">
                         <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest ${
-                          order.status === 'delivered' ? 'bg-green-50 text-green-600' : 
-                          order.status === 'shipped' ? 'bg-blue-50 text-blue-600' : 
+                          order.orderStatus === 'delivered' ? 'bg-green-50 text-green-600' : 
+                          order.orderStatus === 'shipped' ? 'bg-blue-50 text-blue-600' : 
                           'bg-amber-50 text-amber-600'
                         }`}>
-                          {order.status}
+                          {order.orderStatus}
                         </span>
                       </td>
                       <td className="px-8 py-5 font-black text-gray-900 text-sm">
-                        PKR {order.totalPrice.toLocaleString()}
+                        PKR {order.totalAmount.toLocaleString()}
                       </td>
                     </tr>
                   ))}

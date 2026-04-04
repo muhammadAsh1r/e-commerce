@@ -11,6 +11,7 @@ const ProductManagement = () => {
 
   const [modalOpen, setModalOpen] = useState(false);
   const [useJson, setUseJson] = useState(false);
+  const [editId, setEditId] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [viewMode, setViewMode] = useState("table"); // 'table' or 'grid'
 
@@ -37,7 +38,7 @@ const ProductManagement = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleAdd = async () => {
+  const handleSubmit = async () => {
     try {
       if (useJson) {
         const data = JSON.parse(jsonInput);
@@ -48,15 +49,21 @@ const ProductManagement = () => {
         }
       } else {
         if (!formData.name || !formData.category || !formData.price) return;
-        const product = { ...formData, price: +formData.price, stock: +formData.stock || 0 };
-        await dispatch(createProduct(product));
+        const productData = { ...formData, price: +formData.price, stock: +formData.stock || 0 };
+        
+        if (editId) {
+          await dispatch(updateProduct({ id: editId, updates: productData }));
+          setSuccessMsg("Product updated successfully!");
+        } else {
+          await dispatch(createProduct(productData));
+          setSuccessMsg("Product added successfully!");
+        }
       }
-      setSuccessMsg("Product added successfully!");
       setTimeout(() => setSuccessMsg(""), 3000);
       setModalOpen(false);
       resetForm();
     } catch (err) {
-      alert("Error adding product. Check data format.");
+      alert("Error processing product. Check data format.");
     }
   };
 
@@ -64,6 +71,22 @@ const ProductManagement = () => {
     setFormData({ name: "", description: "", category: "", brand: "", price: "", stock: "", images: [""] });
     setJsonInput("");
     setUseJson(false);
+    setEditId(null);
+  };
+
+  const handleEdit = (product) => {
+    setEditId(product._id);
+    setFormData({
+      name: product.name || "",
+      description: product.description || "",
+      category: product.category?._id || product.category || "",
+      brand: product.brand || "",
+      price: product.price || "",
+      stock: product.stock || "",
+      images: product.images || [""]
+    });
+    setUseJson(false);
+    setModalOpen(true);
   };
 
   const handleDelete = (id) => {
@@ -86,7 +109,7 @@ const ProductManagement = () => {
             <p className="text-gray-500 font-medium italic">Control your store's heartbeat and stock health</p>
           </div>
           <button
-            onClick={() => setModalOpen(true)}
+            onClick={() => { resetForm(); setModalOpen(true); }}
             className="flex items-center gap-3 px-8 py-4 bg-brand text-white rounded-2xl font-black hover:bg-brand-hover transition-all shadow-xl shadow-brand/20 active:scale-95"
           >
             <Plus size={24} /> New Product
@@ -179,7 +202,7 @@ const ProductManagement = () => {
                     </td>
                     <td className="px-8 py-6 uppercase">
                       <div className="flex items-center gap-2">
-                        <button className="p-3 text-gray-300 hover:text-brand hover:bg-brand/5 rounded-xl transition-all"><Edit3 size={18} /></button>
+                        <button onClick={() => handleEdit(product)} className="p-3 text-gray-300 hover:text-brand hover:bg-brand/5 rounded-xl transition-all"><Edit3 size={18} /></button>
                         <button onClick={() => handleDelete(product._id)} className="p-3 text-gray-300 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all"><Trash2 size={18} /></button>
                       </div>
                     </td>
@@ -202,8 +225,10 @@ const ProductManagement = () => {
               </button>
 
               <h2 className="text-4xl font-black text-gray-900 mb-8 flex items-center gap-4">
-                <div className="p-3 bg-brand text-white rounded-2xl shadow-lg ring-4 ring-brand/5"><Plus size={28} /></div>
-                New Inventory Item
+                <div className="p-3 bg-brand text-white rounded-2xl shadow-lg ring-4 ring-brand/5">
+                  {editId ? <Edit3 size={28} /> : <Plus size={28} />}
+                </div>
+                {editId ? "Redefine Inventory" : "New Inventory Item"}
               </h2>
 
               <div className="flex items-center gap-2 bg-gray-50 p-2 rounded-2xl mb-10 w-fit">
@@ -277,7 +302,9 @@ const ProductManagement = () => {
 
               <div className="flex justify-end gap-6 pt-6 border-t border-gray-50">
                 <button onClick={() => setModalOpen(false)} className="px-8 py-4 text-gray-400 font-bold hover:text-gray-900 transition-colors">Discard Draft</button>
-                <button onClick={handleAdd} className="px-12 py-4 bg-gray-900 text-white rounded-2xl font-black hover:bg-black transition-all shadow-xl active:scale-95">Commit Item</button>
+                <button onClick={handleSubmit} className="px-12 py-4 bg-gray-900 text-white rounded-2xl font-black hover:bg-black transition-all shadow-xl active:scale-95">
+                  {editId ? "Save Changes" : "Commit Item"}
+                </button>
               </div>
             </div>
           </div>
