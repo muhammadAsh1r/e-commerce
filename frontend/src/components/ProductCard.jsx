@@ -107,7 +107,7 @@ const ProductCard = ({ product, layout = "grid" }) => {
       {/* Image Container */}
       <div className="relative aspect-square overflow-hidden bg-gray-50">
         <img
-          src={product.images?.[0] || "https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=600&auto=format&fit=crop"}
+          src={product.images?.[0] || "https://images.unsplash.com/photo-1546868889-4e0c601da930?q=80&w=800&auto=format&fit=crop"}
           alt={product.name}
           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
         />
