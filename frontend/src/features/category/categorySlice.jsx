@@ -1,6 +1,6 @@
 // features/category/categorySlice.js
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "../../api/axios";
+import axios from "axios";
 
 const BASE_URL = "/api/categories";
 

@@ -85,41 +85,41 @@ const UserManagement = () => {
   ).reverse();
 
   return (
-    <div className="bg-transparent min-h-screen pb-20">
+    <div className="min-h-screen pb-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12">
           <div>
-            <h1 className="text-5xl font-black text-gray-900 dark:text-white mb-2">User <span className="text-brand">Directory</span></h1>
-            <p className="text-gray-500 dark:text-gray-400 font-medium italic">Manage access control and user identities across the platform</p>
+            <h1 className="text-5xl font-black text-gray-900 mb-2">User <span className="text-brand">Directory</span></h1>
+            <p className="text-gray-500 font-medium italic">Manage access control and user identities across the platform</p>
           </div>
           <button
             onClick={openAddModal}
-            className="flex items-center gap-3 px-8 py-4 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-2xl font-black hover:bg-black dark:hover:bg-gray-100 transition-all shadow-xl active:scale-95 cursor-pointer"
+            className="flex items-center gap-3 px-8 py-4 bg-gray-900 text-white rounded-2xl font-black hover:bg-black transition-all shadow-xl active:scale-95"
           >
             <UserPlus size={24} /> Register User
           </button>
         </div>
 
         {/* Action Bar */}
-        <div className="bg-white dark:bg-gray-900/95 dark:backdrop-blur-2xl p-6 rounded-[2.5rem] border border-gray-100 dark:border-white/5 shadow-sm mb-10 flex flex-col md:flex-row gap-6">
+        <div className="bg-white p-6 rounded-[2.5rem] border border-gray-100 shadow-sm mb-10 flex flex-col md:flex-row gap-6">
           <div className="flex-1 relative group">
-            <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500 group-focus-within:text-brand transition-colors" size={20} />
+            <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-brand transition-colors" size={20} />
             <input 
               type="text" 
               placeholder="Search by name or email identity..." 
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-14 pr-6 py-4 bg-gray-50 dark:bg-white/5 border-transparent dark:border-white/10 focus:bg-white dark:focus:bg-white/10 focus:border-brand/30 focus:ring-4 focus:ring-brand/5 rounded-2xl transition-all outline-none font-bold text-gray-700 dark:text-white shadow-inner"
+              className="w-full pl-14 pr-6 py-4 bg-gray-50 border-transparent focus:bg-white focus:border-brand/30 focus:ring-4 focus:ring-brand/5 rounded-2xl transition-all outline-none font-bold text-gray-700 shadow-inner"
             />
           </div>
-          <div className="bg-white dark:bg-white/5 px-6 py-4 rounded-2xl flex items-center gap-3 border border-gray-100 dark:border-white/5 shadow-sm">
+          <div className="bg-white px-6 py-4 rounded-2xl flex items-center gap-3 border border-gray-100">
             <Users className="text-brand" size={20} />
-            <span className="font-black text-gray-900 dark:text-white">{users.length} Total Users</span>
+            <span className="font-black text-gray-900">{users.length} Total Users</span>
           </div>
         </div>
 
         {successMsg && (
-          <div className="mb-8 p-4 bg-green-50 dark:bg-green-950/30 border border-green-100 dark:border-green-900/50 text-green-600 dark:text-green-400 rounded-2xl flex items-center gap-3 animate-in fade-in slide-in-from-top-2 text-sm font-black shadow-sm">
+          <div className="mb-8 p-4 bg-green-50 border border-green-100 text-green-600 rounded-2xl flex items-center gap-3 animate-in fade-in slide-in-from-top-2 text-sm font-black">
             <CheckCircle2 size={20} /> {successMsg}
           </div>
         )}
@@ -129,42 +129,42 @@ const UserManagement = () => {
             <div className="h-12 w-12 border-4 border-brand/30 border-t-brand rounded-full animate-spin" />
           </div>
         ) : (
-          <div className="bg-white dark:bg-gray-900/95 dark:backdrop-blur-2xl rounded-[3rem] border border-gray-100 dark:border-white/5 shadow-xl overflow-hidden">
+          <div className="bg-white rounded-[3rem] border border-gray-100 shadow-xl overflow-hidden">
             <table className="w-full text-left">
               <thead>
-                <tr className="bg-gray-50/50 dark:bg-gray-900/50 border-b border-gray-100 dark:border-white/5">
-                  <th className="px-8 py-6 text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-[0.2em]">Identity</th>
-                  <th className="px-8 py-6 text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-[0.2em]">Privileges</th>
-                  <th className="px-8 py-6 text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-[0.2em]">Contact</th>
-                  <th className="px-8 py-6 text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-[0.2em]">Actions</th>
+                <tr className="bg-gray-50/50 border-b border-gray-100">
+                  <th className="px-8 py-6 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Identity</th>
+                  <th className="px-8 py-6 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Privileges</th>
+                  <th className="px-8 py-6 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Contact</th>
+                  <th className="px-8 py-6 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {filteredUsers.map((user) => (
-                  <tr key={user._id} className="border-b border-gray-50 dark:border-white/5 hover:bg-gray-50/50 dark:hover:bg-white/5 transition-colors group">
+                  <tr key={user._id} className="border-b border-gray-50 hover:bg-gray-50/50 transition-colors group">
                     <td className="px-8 py-6">
                       <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 bg-gray-100 dark:bg-gray-900 text-gray-400 dark:text-gray-600 rounded-2xl flex items-center justify-center font-black group-hover:bg-brand group-hover:text-white transition-colors">
+                        <div className="w-12 h-12 bg-gray-100 text-gray-400 rounded-2xl flex items-center justify-center font-black group-hover:bg-brand group-hover:text-white transition-colors">
                           {user.name?.charAt(0).toUpperCase()}
                         </div>
                         <div>
-                          <p className="font-black text-gray-900 dark:text-white">{user.name}</p>
-                          <p className="text-xs text-gray-400 dark:text-gray-500 font-medium">{user.email}</p>
+                          <p className="font-black text-gray-900">{user.name}</p>
+                          <p className="text-xs text-gray-400 font-medium">{user.email}</p>
                         </div>
                       </div>
                     </td>
                     <td className="px-8 py-6">
-                      <span className={`px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest border transition-all ${user.role === 'admin' ? 'bg-purple-50 dark:bg-purple-950/30 text-purple-600 dark:text-purple-400 border-purple-100 dark:border-purple-900/50' : 'bg-blue-50 dark:bg-blue-950/30 text-blue-600 dark:text-blue-400 border-blue-100 dark:border-blue-900/50'}`}>
+                      <span className={`px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest border transition-all ${user.role === 'admin' ? 'bg-purple-50 text-purple-600 border-purple-100' : 'bg-blue-50 text-blue-600 border-blue-100'}`}>
                         {user.role}
                       </span>
                     </td>
-                    <td className="px-8 py-6 italic text-sm text-gray-500 dark:text-gray-400 font-medium">
+                    <td className="px-8 py-6 italic text-sm text-gray-500 font-medium">
                       {user.phone || "No direct link"}
                     </td>
                     <td className="px-8 py-6">
                       <div className="flex items-center gap-2">
-                        <button onClick={() => handleEditClick(user)} className="p-3 text-gray-300 dark:text-gray-600 hover:text-brand dark:hover:text-brand hover:bg-brand/5 dark:hover:bg-white/5 rounded-xl transition-all cursor-pointer"><Edit3 size={18} /></button>
-                        <button onClick={() => handleDelete(user._id)} className="p-3 text-gray-300 dark:text-gray-600 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30 rounded-xl transition-all cursor-pointer"><Trash2 size={18} /></button>
+                        <button onClick={() => handleEditClick(user)} className="p-3 text-gray-300 hover:text-brand hover:bg-brand/5 rounded-xl transition-all"><Edit3 size={18} /></button>
+                        <button onClick={() => handleDelete(user._id)} className="p-3 text-gray-300 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all"><Trash2 size={18} /></button>
                       </div>
                     </td>
                   </tr>
@@ -176,51 +176,51 @@ const UserManagement = () => {
 
         {/* Modal */}
         {showModal && (
-          <div className="fixed inset-0 bg-gray-900/40 dark:bg-black/60 backdrop-blur-md flex items-center justify-center z-[110] animate-in fade-in p-4">
-            <div className="bg-white dark:bg-gray-900 rounded-[3.5rem] p-10 w-full max-w-2xl relative shadow-2xl border border-white/20 dark:border-white/5">
+          <div className="fixed inset-0 bg-gray-900/60 backdrop-blur-md flex items-center justify-center z-[110] animate-in fade-in">
+            <div className="bg-white rounded-[3.5rem] p-10 w-full max-w-2xl relative shadow-2xl border border-white/20">
               <button
                 onClick={() => setShowModal(false)}
-                className="absolute top-8 right-8 p-3 bg-gray-50 dark:bg-white/5 text-gray-400 hover:text-gray-900 dark:hover:text-white rounded-2xl transition-all cursor-pointer"
+                className="absolute top-8 right-8 p-3 bg-gray-50 text-gray-400 hover:text-gray-900 rounded-2xl transition-all"
               >
                 <X size={24} />
               </button>
 
-              <h2 className="text-3xl font-black text-gray-900 dark:text-white mb-8 flex items-center gap-3">
-                <div className="p-3 bg-brand text-white rounded-2xl shadow-lg ring-4 ring-brand/5"><UserPlus size={24} /></div>
+              <h2 className="text-3xl font-black text-gray-900 mb-8 flex items-center gap-3">
+                <div className="p-3 bg-brand text-white rounded-2xl"><UserPlus size={24} /></div>
                 {isEditMode ? "Modify Identity" : "Register New Entity"}
               </h2>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
                 <div className="space-y-1.5">
-                  <label className="text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest pl-1">Legal Name</label>
-                  <input name="name" value={formData.name} onChange={handleChange} className="w-full bg-gray-50 dark:bg-white/5 px-6 py-4 rounded-2xl border-transparent dark:border-white/10 focus:bg-white dark:focus:bg-white/10 focus:border-brand/30 focus:ring-4 focus:ring-brand/5 outline-none font-bold text-gray-700 dark:text-white transition-all shadow-inner" />
+                  <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest pl-1">Legal Name</label>
+                  <input name="name" value={formData.name} onChange={handleChange} className="w-full bg-gray-50 px-6 py-4 rounded-2xl border-transparent focus:bg-white focus:border-brand/30 focus:ring-4 focus:ring-brand/5 outline-none font-bold text-gray-700 transition-all shadow-inner" />
                 </div>
                 <div className="space-y-1.5">
-                  <label className="text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest pl-1">Email Identity</label>
-                  <input name="email" value={formData.email} onChange={handleChange} disabled={isEditMode} className="w-full bg-gray-50 dark:bg-white/5 px-6 py-4 rounded-2xl border-transparent dark:border-white/10 focus:bg-white dark:focus:bg-white/10 focus:border-brand/30 focus:ring-4 focus:ring-brand/5 outline-none font-bold text-gray-700 dark:text-white transition-all shadow-inner disabled:opacity-50 cursor-not-allowed" />
+                  <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest pl-1">Email Identity</label>
+                  <input name="email" value={formData.email} onChange={handleChange} disabled={isEditMode} className="w-full bg-gray-50 px-6 py-4 rounded-2xl border-transparent focus:bg-white focus:border-brand/30 focus:ring-4 focus:ring-brand/5 outline-none font-bold text-gray-700 transition-all shadow-inner disabled:opacity-50 cursor-not-allowed" />
                 </div>
                 {!isEditMode && (
                   <div className="space-y-1.5">
-                    <label className="text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest pl-1">Access Key (Password)</label>
-                    <input name="password" type="password" value={formData.password} onChange={handleChange} className="w-full bg-gray-50 dark:bg-white/5 px-6 py-4 rounded-2xl border-transparent dark:border-white/10 focus:bg-white dark:focus:bg-white/10 focus:border-brand/30 focus:ring-4 focus:ring-brand/5 outline-none font-bold text-gray-700 dark:text-white transition-all shadow-inner" />
+                    <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest pl-1">Access Key (Password)</label>
+                    <input name="password" type="password" value={formData.password} onChange={handleChange} className="w-full bg-gray-50 px-6 py-4 rounded-2xl border-transparent focus:bg-white focus:border-brand/30 focus:ring-4 focus:ring-brand/5 outline-none font-bold text-gray-700 transition-all shadow-inner" />
                   </div>
                 )}
                 <div className="space-y-1.5">
-                  <label className="text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest pl-1">Access Level</label>
-                  <select name="role" value={formData.role} onChange={handleChange} className="w-full bg-gray-50 dark:bg-white/5 px-6 py-4 rounded-2xl border-transparent dark:border-white/10 focus:bg-white dark:focus:bg-white/10 focus:border-brand/30 focus:ring-4 focus:ring-brand/5 outline-none font-bold text-gray-700 dark:text-white transition-all shadow-inner cursor-pointer shadow-sm">
-                    <option value="user" className="dark:bg-gray-800">Standard User</option>
-                    <option value="admin" className="dark:bg-gray-800">Platform Admin</option>
+                  <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest pl-1">Access Level</label>
+                  <select name="role" value={formData.role} onChange={handleChange} className="w-full bg-gray-50 px-6 py-4 rounded-2xl border-transparent focus:bg-white focus:border-brand/30 focus:ring-4 focus:ring-brand/5 outline-none font-bold text-gray-700 transition-all shadow-inner cursor-pointer">
+                    <option value="user">Standard User</option>
+                    <option value="admin">Platform Admin</option>
                   </select>
                 </div>
                 <div className="space-y-1.5 md:col-span-2">
-                  <label className="text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest pl-1">Primary Residence (Address)</label>
-                  <input name="address" value={formData.address} onChange={handleChange} className="w-full bg-gray-50 dark:bg-white/5 px-6 py-4 rounded-2xl border-transparent dark:border-white/10 focus:bg-white dark:focus:bg-white/10 focus:border-brand/30 focus:ring-4 focus:ring-brand/5 outline-none font-bold text-gray-700 dark:text-white transition-all shadow-inner" />
+                  <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest pl-1">Primary Residence (Address)</label>
+                  <input name="address" value={formData.address} onChange={handleChange} className="w-full bg-gray-50 px-6 py-4 rounded-2xl border-transparent focus:bg-white focus:border-brand/30 focus:ring-4 focus:ring-brand/5 outline-none font-bold text-gray-700 transition-all shadow-inner" />
                 </div>
               </div>
 
-              <div className="flex justify-end gap-6 pt-6 border-t border-gray-50 dark:border-white/5">
-                <button onClick={() => setShowModal(false)} className="px-8 py-4 text-gray-400 hover:text-gray-900 dark:hover:text-white font-bold transition-colors cursor-pointer">Discard</button>
-                <button onClick={handleSave} className="px-12 py-4 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-2xl font-black hover:bg-black dark:hover:bg-gray-100 transition-all shadow-xl active:scale-95 cursor-pointer">
+              <div className="flex justify-end gap-6 pt-6 border-t border-gray-50">
+                <button onClick={() => setShowModal(false)} className="px-8 py-4 text-gray-400 font-bold hover:text-gray-900 transition-colors">Discard</button>
+                <button onClick={handleSave} className="px-12 py-4 bg-gray-900 text-white rounded-2xl font-black hover:bg-black transition-all shadow-xl active:scale-95">
                   {isEditMode ? "Commit Updates" : "Finalize Registration"}
                 </button>
               </div>

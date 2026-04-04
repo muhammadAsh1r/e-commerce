@@ -30,9 +30,9 @@ const ProductCard = ({ product, layout = "grid" }) => {
 
   if (layout === "list") {
     return (
-      <div className="group bg-white dark:bg-gray-900/95 dark:backdrop-blur-2xl rounded-3xl border border-gray-100 dark:border-white/5 overflow-hidden transition-all duration-500 hover:shadow-xl hover:shadow-brand/5 flex flex-col sm:flex-row gap-6 p-4">
+      <div className="group bg-white rounded-3xl border border-gray-100 overflow-hidden transition-all duration-500 hover:shadow-xl hover:shadow-brand/5 flex flex-col sm:flex-row gap-6 p-4">
         {/* Image Container */}
-        <div className="relative w-full sm:w-48 aspect-square sm:aspect-auto shrink-0 bg-gray-50 dark:bg-gray-700 rounded-2xl overflow-hidden">
+        <div className="relative w-full sm:w-48 aspect-square sm:aspect-auto shrink-0 bg-gray-50 rounded-2xl overflow-hidden">
           <img
             src={product.images?.[0] || "https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=600&auto=format&fit=crop"}
             alt={product.name}
@@ -42,12 +42,12 @@ const ProductCard = ({ product, layout = "grid" }) => {
           <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-3">
             <button 
               onClick={handleAddToCart}
-              className="p-2.5 bg-white dark:bg-gray-800 text-gray-900 dark:text-white rounded-full shadow-xl hover:bg-brand hover:text-white transition-all transform translate-y-4 group-hover:translate-y-0 duration-300 cursor-pointer border border-transparent dark:border-white/10" 
+              className="p-2.5 bg-white text-gray-900 rounded-full shadow-xl hover:bg-brand hover:text-white transition-all transform translate-y-4 group-hover:translate-y-0 duration-300 cursor-pointer" 
               title="Add to Cart"
             >
               <ShoppingCart size={18} />
             </button>
-            <Link to={`/product/${product._id}`} className="p-2.5 bg-white dark:bg-gray-800 text-gray-900 dark:text-white rounded-full shadow-xl hover:bg-brand hover:text-white transition-all transform translate-y-4 group-hover:translate-y-0 duration-300 delay-75 border border-transparent dark:border-white/10" title="View Details">
+            <Link to={`/product/${product._id}`} className="p-2.5 bg-white text-gray-900 rounded-full shadow-xl hover:bg-brand hover:text-white transition-all transform translate-y-4 group-hover:translate-y-0 duration-300 delay-75" title="View Details">
               <Eye size={18} />
             </Link>
           </div>
@@ -63,31 +63,31 @@ const ProductCard = ({ product, layout = "grid" }) => {
           </div>
           
           <div className="flex justify-between items-start gap-4 mb-2">
-            <h3 className="text-xl font-bold text-gray-900 dark:text-white truncate group-hover:text-brand transition-colors">
+            <h3 className="text-xl font-bold text-gray-900 truncate group-hover:text-brand transition-colors">
               <Link to={`/product/${product._id}`}>{product.name}</Link>
             </h3>
             <div className="text-right shrink-0">
-              <span className="text-xl font-black text-gray-900 dark:text-white block">{formattedPrice}</span>
+              <span className="text-xl font-black text-gray-900 block">{formattedPrice}</span>
               {product.oldPrice && (
-                <span className="text-sm text-gray-400 dark:text-gray-500 line-through">PKR {product.oldPrice}</span>
+                <span className="text-sm text-gray-400 line-through">PKR {product.oldPrice}</span>
               )}
             </div>
           </div>
           
-          <p className="text-sm text-gray-500 dark:text-gray-400 mb-6 line-clamp-2 max-w-2xl">
+          <p className="text-sm text-gray-500 mb-6 line-clamp-2 max-w-2xl">
             {product.description}
           </p>
 
           <div className="flex items-center justify-between mt-auto">
             <div className="flex items-center gap-3">
               {product.stock <= 5 && product.stock > 0 && (
-                <span className="bg-orange-100 dark:bg-orange-950/30 text-orange-600 dark:text-orange-400 text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-tighter border border-orange-200 dark:border-orange-900/50">Low Stock</span>
+                <span className="bg-orange-100 text-orange-600 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-tighter">Low Stock</span>
               )}
               {product.stock === 0 && (
-                <span className="bg-red-100 dark:bg-red-950/30 text-red-600 dark:text-red-400 text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-tighter border border-red-200 dark:border-red-900/50">Sold Out</span>
+                <span className="bg-red-100 text-red-600 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-tighter">Sold Out</span>
               )}
               {product.stock > 5 && (
-                <span className="bg-green-100 dark:bg-green-950/30 text-green-600 dark:text-green-400 text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-tighter border border-green-200 dark:border-green-900/50">In Stock</span>
+                <span className="bg-green-100 text-green-600 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-tighter">In Stock</span>
               )}
             </div>
             <button 
@@ -103,9 +103,9 @@ const ProductCard = ({ product, layout = "grid" }) => {
   }
 
   return (
-    <div className="group relative bg-white dark:bg-gray-900/95 dark:backdrop-blur-2xl rounded-3xl border border-gray-100 dark:border-white/5 overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-brand/10 hover:-translate-y-2">
+    <div className="group relative bg-white rounded-3xl border border-gray-100 overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-brand/10 hover:-translate-y-2">
       {/* Image Container */}
-      <div className="relative aspect-square overflow-hidden bg-gray-50 dark:bg-gray-700">
+      <div className="relative aspect-square overflow-hidden bg-gray-50">
         <img
           src={product.images?.[0] || "https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=600&auto=format&fit=crop"}
           alt={product.name}
@@ -130,14 +130,14 @@ const ProductCard = ({ product, layout = "grid" }) => {
         <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-3">
           <button 
             onClick={handleAddToCart}
-            className="p-3 bg-white dark:bg-gray-800 text-gray-900 dark:text-white rounded-full shadow-xl hover:bg-brand hover:text-white transition-all transform translate-y-10 group-hover:translate-y-0 duration-500 delay-[100ms] cursor-pointer border border-transparent dark:border-white/10"
+            className="p-3 bg-white text-gray-900 rounded-full shadow-xl hover:bg-brand hover:text-white transition-all transform translate-y-10 group-hover:translate-y-0 duration-500 delay-[100ms] cursor-pointer"
             title="Add to Cart"
           >
             <ShoppingCart size={20} />
           </button>
           <Link 
             to={`/product/${product._id}`}
-            className="p-3 bg-white dark:bg-gray-800 text-gray-900 dark:text-white rounded-full shadow-xl hover:bg-brand hover:text-white transition-all transform translate-y-10 group-hover:translate-y-0 duration-500 border border-transparent dark:border-white/10"
+            className="p-3 bg-white text-gray-900 rounded-full shadow-xl hover:bg-brand hover:text-white transition-all transform translate-y-10 group-hover:translate-y-0 duration-500"
             title="View Details"
           >
             <Eye size={20} />
@@ -154,19 +154,19 @@ const ProductCard = ({ product, layout = "grid" }) => {
           <span className="text-[10px] text-gray-400 font-medium ml-1">(4.0)</span>
         </div>
         
-        <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-1 truncate group-hover:text-brand transition-colors">
+        <h3 className="text-lg font-bold text-gray-900 mb-1 truncate group-hover:text-brand transition-colors">
           <Link to={`/product/${product._id}`}>{product.name}</Link>
         </h3>
         
-        <p className="text-sm text-gray-500 dark:text-gray-400 mb-4 line-clamp-1">
+        <p className="text-sm text-gray-500 mb-4 line-clamp-1">
           {product.description}
         </p>
 
         <div className="flex items-center justify-between">
           <div>
-            <span className="text-xl font-black text-gray-900 dark:text-white">{formattedPrice}</span>
+            <span className="text-xl font-black text-gray-900">{formattedPrice}</span>
             {product.oldPrice && (
-              <span className="text-sm text-gray-400 dark:text-gray-500 line-through ml-2">PKR {product.oldPrice}</span>
+              <span className="text-sm text-gray-400 line-through ml-2">PKR {product.oldPrice}</span>
             )}
           </div>
           <button 

@@ -15,17 +15,13 @@ import {
   Settings,
   Home as HomeIcon,
   ChevronLeft,
-  ChevronRight,
-  Sun,
-  Moon
+  ChevronRight
 } from "lucide-react";
-import { useTheme } from "../context/ThemeContext";
 
 const Sidebar = () => {
   const [isCollapsed, setIsCollapsed] = useState(true);
   const location = useLocation();
   const dispatch = useDispatch();
-  const { theme, toggleTheme } = useTheme();
   
   const user = useSelector((state) => state.user.user);
   const cartItems = useSelector((state) => state.cart.items) || [];
@@ -62,7 +58,7 @@ const Sidebar = () => {
         className={`flex items-center gap-4 px-3 py-3 rounded-2xl transition-all duration-300 group relative cursor-pointer ${
           active 
             ? "bg-brand text-white shadow-lg shadow-brand/20" 
-            : "text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:hover:bg-white/5 dark:hover:text-white"
+            : "text-gray-500 hover:bg-gray-100 hover:text-gray-900"
         }`}
       >
         <div className="shrink-0 flex items-center justify-center relative">
@@ -103,18 +99,18 @@ const Sidebar = () => {
 
       {/* Sidebar Container */}
       <aside 
-        className={`fixed md:sticky top-0 left-0 h-screen bg-white dark:bg-gray-900/95 dark:backdrop-blur-2xl border-r border-gray-200 dark:border-white/5 shadow-sm z-50 flex flex-col transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] ${
+        className={`fixed md:sticky top-0 left-0 h-screen bg-white border-r border-gray-200 shadow-sm z-50 flex flex-col transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] ${
           isCollapsed ? "w-[80px]" : "w-[280px]"
         } select-none`}
       >
         {/* Header / Logo */}
-        <div className="h-20 flex items-center px-4 shrink-0 border-b border-gray-100 dark:border-white/5">
+        <div className="h-20 flex items-center px-4 shrink-0 border-b border-gray-100">
           <div className="flex items-center gap-3 w-full justify-center">
             <Link to="/" className="flex items-center gap-3 overflow-hidden shrink-0">
               <div className="shrink-0 bg-brand text-white p-2.5 rounded-[14px] shadow-lg shadow-brand/20">
                 <ShoppingBag size={24} />
               </div>
-              <span className={`text-2xl font-black tracking-tight text-gray-900 dark:text-white transition-all duration-300 ${
+              <span className={`text-2xl font-black tracking-tight text-gray-900 transition-all duration-300 ${
                 isCollapsed ? "w-0 opacity-0 hidden" : "w-auto opacity-100"
               }`}>
                 Tech<span className="text-brand">Store</span>
@@ -126,13 +122,13 @@ const Sidebar = () => {
         {/* Floating Toggle Button - Visible on Desktop Desktop */}
         <button 
           onClick={() => setIsCollapsed(!isCollapsed)}
-          className="hidden md:flex absolute -right-4 top-24 h-8 w-8 bg-white dark:bg-gray-800 border border-gray-200 dark:border-white/10 rounded-full items-center justify-center text-gray-400 hover:text-gray-900 dark:hover:text-white shadow-sm z-50 transition-all hover:scale-110"
+          className="hidden md:flex absolute -right-4 top-24 h-8 w-8 bg-white border border-gray-200 rounded-full items-center justify-center text-gray-400 hover:text-gray-900 shadow-sm z-50 transition-all hover:scale-110"
         >
           {isCollapsed ? <ChevronRight size={16} /> : <ChevronLeft size={16} />}
         </button>
 
         {/* Navigation Links */}
-        <div className="flex-1 overflow-y-auto overflow-x-hidden py-8 px-4 flex flex-col gap-2 custom-scrollbar">
+        <div className="flex-1 overflow-y-auto overflow-x-hidden py-8 px-4 flex flex-col gap-2 scrollbar-hide">
           {user?.role === "admin" && !isCollapsed && (
             <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2 px-3">
               Admin Portal
@@ -145,14 +141,14 @@ const Sidebar = () => {
         </div>
 
         {/* Footer / User Profile */}
-        <div className="p-4 border-t border-gray-100 dark:border-white/5 shrink-0 flex flex-col gap-2">
+        <div className="p-4 border-t border-gray-100 shrink-0">
           {user ? (
             <div className="flex flex-col gap-2">
               <SidebarItem to="/profile" label={user.name.split(' ')[0]} icon={User} />
               <button 
                 onClick={handleLogout}
                 title={isCollapsed ? "Logout" : ""}
-                className={`flex items-center gap-4 px-3 py-3 rounded-2xl text-gray-500 hover:bg-red-50 dark:hover:bg-red-950/30 hover:text-red-500 transition-all group relative overflow-hidden cursor-pointer`}
+                className={`flex items-center gap-4 px-3 py-3 rounded-2xl text-gray-500 hover:bg-red-50 hover:text-red-500 transition-all group relative overflow-hidden cursor-pointer`}
               >
                 <div className="shrink-0 flex items-center justify-center"><LogOut size={24} /></div>
                 <span className={`font-bold whitespace-nowrap transition-all duration-300 ${

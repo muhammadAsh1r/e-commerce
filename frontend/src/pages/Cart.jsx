@@ -67,12 +67,12 @@ const Cart = () => {
   if (!user) {
     return (
       <div className="min-h-[60vh] flex flex-col items-center justify-center px-4">
-        <div className="bg-white dark:bg-gray-900/95 dark:backdrop-blur-2xl border border-gray-100 dark:border-white/5 shadow-xl text-center max-w-md">
-          <div className="w-20 h-20 bg-gray-50 dark:bg-gray-900/50 text-gray-400 rounded-full flex items-center justify-center mx-auto mb-6">
+        <div className="bg-white p-10 rounded-[3rem] border border-gray-100 shadow-xl text-center max-w-md">
+          <div className="w-20 h-20 bg-gray-50 text-gray-400 rounded-full flex items-center justify-center mx-auto mb-6">
             <ShoppingBag size={40} />
           </div>
-          <h2 className="text-2xl font-black text-gray-900 dark:text-white mb-4">Your cart is waiting</h2>
-          <p className="text-gray-500 dark:text-gray-400 mb-8">Please login to view your saved items and continue shopping.</p>
+          <h2 className="text-2xl font-black text-gray-900 mb-4">Your cart is waiting</h2>
+          <p className="text-gray-500 mb-8">Please login to view your saved items and continue shopping.</p>
           <Link to="/login" className="block w-full py-4 bg-brand text-white rounded-2xl font-bold hover:bg-brand-hover transition-all">
             Login to Account
           </Link>
@@ -97,8 +97,8 @@ const Cart = () => {
           <div className="w-24 h-24 bg-brand/5 text-brand rounded-full flex items-center justify-center mx-auto mb-8">
             <ShoppingBag size={48} />
           </div>
-          <h2 className="text-4xl font-black text-gray-900 dark:text-white mb-4">Your cart is empty</h2>
-          <p className="text-gray-500 dark:text-gray-400 text-lg mb-10">Looks like you haven't added anything to your cart yet.</p>
+          <h2 className="text-4xl font-black text-gray-900 mb-4">Your cart is empty</h2>
+          <p className="text-gray-500 text-lg mb-10">Looks like you haven't added anything to your cart yet.</p>
           <Link to="/products" className="inline-flex items-center gap-2 px-8 py-4 bg-brand text-white rounded-2xl font-bold hover:bg-brand-hover transition-all shadow-lg shadow-brand/20">
             Start Shopping <ArrowRight size={20} />
           </Link>
@@ -111,10 +111,10 @@ const Cart = () => {
     <div className="min-h-screen pb-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="flex items-center gap-4 mb-10">
-          <Link to="/products" className="p-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-white/10 rounded-xl text-gray-600 dark:text-gray-400 hover:text-brand transition-colors">
+          <Link to="/products" className="p-2 bg-white border border-gray-200 rounded-xl text-gray-600 hover:text-brand transition-colors">
             <ChevronLeft size={24} />
           </Link>
-          <h1 className="text-4xl font-black text-gray-900 dark:text-white">Your <span className="text-brand">Shopping Cart</span></h1>
+          <h1 className="text-4xl font-black text-gray-900">Your <span className="text-brand">Shopping Cart</span></h1>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 items-start">
@@ -123,9 +123,9 @@ const Cart = () => {
             {cartItems.map((item) => (
               <div 
                 key={item.productId._id} 
-                className="group bg-white dark:bg-gray-900/95 dark:backdrop-blur-2xl border border-gray-100 dark:border-white/5 shadow-sm hover:shadow-md transition-all flex flex-col sm:flex-row items-center gap-6"
+                className="group bg-white p-6 rounded-[2rem] border border-gray-100 shadow-sm hover:shadow-md transition-all flex flex-col sm:flex-row items-center gap-6"
               >
-                <div className="w-32 h-32 bg-gray-50 dark:bg-gray-700 rounded-2xl overflow-hidden shrink-0">
+                <div className="w-32 h-32 bg-gray-50 rounded-2xl overflow-hidden shrink-0">
                   <img 
                     src={item.productId.images?.[0] || "https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=200"} 
                     alt={item.productId.name} 
@@ -136,17 +136,17 @@ const Cart = () => {
                   <h3 className="text-xl font-bold text-gray-900 mb-1 truncate">{item.productId.name}</h3>
                   <p className="text-gray-500 text-sm mb-4 line-clamp-1">{item.productId.description}</p>
                   <div className="flex items-center justify-center sm:justify-start gap-4">
-                    <div className="flex items-center bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-white/10 rounded-xl p-1">
+                    <div className="flex items-center bg-gray-50 border border-gray-200 rounded-xl p-1">
                       <button 
                         onClick={() => handleUpdateQuantity(item.productId._id, item.quantity, -1)}
-                        className="p-1.5 hover:bg-white dark:hover:bg-gray-600 hover:shadow-sm rounded-lg text-gray-600 dark:text-gray-400 transition-all cursor-pointer"
+                        className="p-1.5 hover:bg-white hover:shadow-sm rounded-lg text-gray-600 transition-all cursor-pointer"
                       >
                         <Minus size={16} />
                       </button>
-                      <span className="w-10 text-center font-bold text-gray-900 dark:text-white">{item.quantity}</span>
+                      <span className="w-10 text-center font-bold text-gray-900">{item.quantity}</span>
                       <button 
                         onClick={() => handleUpdateQuantity(item.productId._id, item.quantity, 1)}
-                        className="p-1.5 hover:bg-white dark:hover:bg-gray-600 hover:shadow-sm rounded-lg text-gray-600 dark:text-gray-400 transition-all cursor-pointer"
+                        className="p-1.5 hover:bg-white hover:shadow-sm rounded-lg text-gray-600 transition-all cursor-pointer"
                       >
                         <Plus size={16} />
                       </button>
@@ -160,10 +160,10 @@ const Cart = () => {
                   </div>
                 </div>
                 <div className="text-right shrink-0">
-                  <p className="text-xl font-black text-gray-900 dark:text-white">
+                  <p className="text-xl font-black text-gray-900">
                     PKR {(item.productId.price * item.quantity).toLocaleString()}
                   </p>
-                  <p className="text-xs text-gray-400 dark:text-gray-500 font-medium tracking-tighter">
+                  <p className="text-xs text-gray-400 font-medium tracking-tighter">
                     PKR {item.productId.price.toLocaleString()} per unit
                   </p>
                 </div>
@@ -173,7 +173,7 @@ const Cart = () => {
 
           {/* Order Summary Sidebar */}
           <div className="lg:sticky lg:top-32 space-y-6">
-            <div className="bg-gray-900 dark:bg-gray-800 text-white p-8 rounded-[2.5rem] shadow-2xl shadow-gray-900/20">
+            <div className="bg-gray-900 text-white p-8 rounded-[2.5rem] shadow-2xl shadow-gray-900/20">
               <h2 className="text-2xl font-black mb-8">Order Summary</h2>
               
               <div className="space-y-4 mb-8">
