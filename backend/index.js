@@ -1,6 +1,8 @@
 const express = require("express");
 const cors = require("cors");
-require("dotenv").config();
+require("dotenv").config({ path: ".env.local" });
+require("dotenv").config(); // fallback to .env if needed
+
 
 const connectDB = require("./config/db");
 const userRoutes = require("./routes/userRoutes");
@@ -9,6 +11,7 @@ const categoryRoutes = require("./routes/categoryRoutes");
 const orderRoutes = require("./routes/orderRoutes");
 const authRoutes = require("./routes/authRoutes");
 const cartRoutes = require("./routes/cartRoutes");
+const paymentRoutes = require("./routes/paymentRoutes");
 
 const app = express();
 
@@ -28,6 +31,8 @@ app.use("/api/orders", orderRoutes);
 app.use("/api/auth", authRoutes);
 
 app.use("/api/cart", cartRoutes);
+
+app.use("/api/payment", paymentRoutes);
 
 const PORT = process.env.PORT || 3000;
 

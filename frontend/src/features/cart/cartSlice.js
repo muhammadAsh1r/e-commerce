@@ -6,7 +6,7 @@ export const fetchCart = createAsyncThunk(
   "cart/fetchCart",
   async (userId, { rejectWithValue }) => {
     try {
-      const res = await axios.get(`http://localhost:3000/api/cart/${userId}`);
+      const res = await axios.get(`/api/cart/${userId}`);
       return res.data; // cart object
     } catch (err) {
       return rejectWithValue(err.response?.data || "Fetch cart failed");
@@ -19,7 +19,7 @@ export const addItemToCart = createAsyncThunk(
   "cart/addItemToCart",
   async ({ userId, productId, quantity }, { rejectWithValue }) => {
     try {
-      const res = await axios.post(`http://localhost:3000/api/cart/add`, {
+      const res = await axios.post(`/api/cart/add`, {
         userId,
         productId,
         quantity,
@@ -37,7 +37,7 @@ export const removeItemFromCart = createAsyncThunk(
   async ({ userId, productId }, { rejectWithValue }) => {
     try {
       const res = await axios.delete(
-        `http://localhost:3000/api/cart/${userId}/item/${productId}`
+        `/api/cart/${userId}/item/${productId}`
       );
       return res.data; // updated cart object
     } catch (err) {
@@ -51,7 +51,7 @@ export const clearCart = createAsyncThunk(
   "cart/clearCart",
   async (userId, { rejectWithValue }) => {
     try {
-      await axios.delete(`http://localhost:3000/api/cart/${userId}`);
+      await axios.delete(`/api/cart/${userId}`);
       return { items: [], totalPrice: 0 }; // reset cart
     } catch (err) {
       return rejectWithValue(err.response?.data || "Clear cart failed");

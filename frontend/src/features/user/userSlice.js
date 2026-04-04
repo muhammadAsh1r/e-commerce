@@ -6,7 +6,7 @@ export const loginUser = createAsyncThunk(
   "user/loginUser",
   async ({ email, password }, { rejectWithValue }) => {
     try {
-      const res = await axios.post("http://localhost:3000/api/auth/login", {
+      const res = await axios.post("/api/auth/login", {
         email,
         password,
       });
@@ -23,7 +23,7 @@ export const signupUser = createAsyncThunk(
   async (userData, { rejectWithValue }) => {
     try {
       const res = await axios.post(
-        "http://localhost:3000/api/auth/signup",
+        "/api/auth/signup",
         userData
       );
       return res.data; // { message, token, user }
@@ -38,7 +38,7 @@ export const getAllUsers = createAsyncThunk(
   "user/getAllUsers",
   async (_, { rejectWithValue }) => {
     try {
-      const res = await axios.get("http://localhost:3000/api/users");
+      const res = await axios.get("/api/users");
       return res.data; // expecting array of users
     } catch (err) {
       return rejectWithValue(
@@ -53,7 +53,7 @@ export const deleteUser = createAsyncThunk(
   "user/deleteUser",
   async (id, { rejectWithValue }) => {
     try {
-      await axios.delete(`http://localhost:3000/api/users/${id}`);
+      await axios.delete(`/api/users/${id}`);
       return id; // return deleted user id for state update
     } catch (err) {
       return rejectWithValue(
@@ -69,7 +69,7 @@ export const updateUser = createAsyncThunk(
   async ({ id, updates }, { rejectWithValue }) => {
     try {
       const res = await axios.put(
-        `http://localhost:3000/api/users/${id}`,
+        `/api/users/${id}`,
         updates
       );
       return res.data; // updated user object

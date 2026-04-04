@@ -6,11 +6,8 @@ export const createOrder = createAsyncThunk(
   "orders/createOrder",
   async (orderData, { rejectWithValue }) => {
     try {
-      const res = await axios.post(
-        "http://localhost:3000/api/orders",
-        orderData
-      );
-      return res.data;
+      const res = await axios.post("/api/orders", orderData);
+      return res.data.order || res.data;
     } catch (err) {
       return rejectWithValue(err.response?.data || "Failed to create order");
     }
@@ -22,7 +19,7 @@ export const getAllOrders = createAsyncThunk(
   "orders/getAllOrders",
   async (_, { rejectWithValue }) => {
     try {
-      const res = await axios.get("http://localhost:3000/api/orders");
+      const res = await axios.get("/api/orders");
       return res.data.orders;
     } catch (err) {
       return rejectWithValue(err.response?.data || "Failed to fetch orders");
@@ -35,9 +32,7 @@ export const getOrdersByUser = createAsyncThunk(
   "orders/getOrdersByUser",
   async (userId, { rejectWithValue }) => {
     try {
-      const res = await axios.get(
-        `http://localhost:3000/api/orders/user/${userId}`
-      );
+      const res = await axios.get(`/api/orders/user/${userId}`);
       return res.data.orders;
     } catch (err) {
       return rejectWithValue(
@@ -52,9 +47,7 @@ export const getOrderById = createAsyncThunk(
   "orders/getOrderById",
   async (orderId, { rejectWithValue }) => {
     try {
-      const res = await axios.get(
-        `http://localhost:3000/api/orders/${orderId}`
-      );
+      const res = await axios.get(`/api/orders/${orderId}`);
       return res.data;
     } catch (err) {
       return rejectWithValue(err.response?.data || "Failed to fetch order");
@@ -65,12 +58,14 @@ export const getOrderById = createAsyncThunk(
 // Update order status
 export const updateOrderStatus = createAsyncThunk(
   "orders/updateOrderStatus",
-  async ({ id, status }, { rejectWithValue }) => {
+  async ({ id, paymentStatus, orderStatus }, { rejectWithValue }) => {
     try {
-      const res = await axios.put(`http://localhost:3000/api/orders/${id}`, {
-        orderStatus: status,
-      });
-      return res.data;
+      const payload = {};
+      if (paymentStatus) payload.paymentStatus = paymentStatus;
+      if (orderStatus) payload.orderStatus = orderStatus;
+
+      const res = await axios.put(`/api/orders/${id}`, payload);
+      return res.data.order || res.data; // Handle both potential formats
     } catch (err) {
       return rejectWithValue(
         err.response?.data || "Failed to update order status"
