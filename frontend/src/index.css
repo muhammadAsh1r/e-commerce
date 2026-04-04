@@ -6,12 +6,37 @@
 }
 
 @layer base {
-  body {
-    background: radial-gradient(circle at center, #ffffff 0%, #f3f4f6 100%) fixed;
-    @apply text-gray-700 font-sans;
-    min-height: 100vh;
+  * {
+    @apply transition-colors duration-300;
   }
+
+  body {
+    background: 
+      radial-gradient(circle at 0% 0%, rgba(20, 184, 166, 0.05) 0%, transparent 40%),
+      radial-gradient(circle at 100% 0%, rgba(20, 184, 166, 0.03) 0%, transparent 30%),
+      radial-gradient(circle at 50% 50%, rgba(20, 184, 166, 0.02) 0%, transparent 60%),
+      radial-gradient(circle at 100% 100%, rgba(20, 184, 166, 0.08) 0%, transparent 50%),
+      linear-gradient(135deg, #030712 0%, #000000 100%) fixed;
+    @apply text-gray-200 font-sans;
+    min-height: 100vh;
+    color-scheme: dark;
+  }
+  
   h1, h2, h3, h4, h5, h6 {
-    @apply text-gray-900 font-bold;
+    @apply text-white font-bold;
+  }
+
+  /* Custom Scrollbar for a premium look */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 5px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    @apply bg-gray-200 dark:bg-white/10 rounded-full;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    @apply bg-gray-300 dark:bg-white/20;
   }
 }

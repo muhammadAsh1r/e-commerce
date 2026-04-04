@@ -56,7 +56,7 @@ const CheckoutForm = ({ order, clientSecret }) => {
     <form onSubmit={handleSubmit} className="space-y-8">
       <PaymentElement />
       
-      {error && <div className="p-4 bg-red-50 text-red-600 rounded-xl font-bold text-sm">{error}</div>}
+      {error && <div className="p-4 bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded-xl font-bold text-sm border border-red-100 dark:border-red-900/50">{error}</div>}
       
       <button 
         disabled={!stripe || loading}
@@ -101,10 +101,10 @@ const Payment = () => {
   if (!user) {
     return (
       <div className="min-h-screen flex items-center justify-center p-4">
-        <div className="text-center bg-white p-10 rounded-[3rem] shadow-xl border border-gray-100 max-w-lg">
+        <div className="text-center bg-white dark:bg-gray-900/95 dark:backdrop-blur-2xl p-10 rounded-[3rem] shadow-xl border border-gray-100 dark:border-white/5 max-w-lg">
           <ShieldCheck size={48} className="mx-auto text-brand mb-6" />
-          <h2 className="text-2xl font-black mb-2">Access Denied</h2>
-          <p className="text-gray-500 mb-8">You must be authorized to access payment endpoints.</p>
+          <h2 className="text-2xl font-black text-gray-900 dark:text-white mb-2">Access Denied</h2>
+          <p className="text-gray-500 dark:text-gray-400 mb-8 font-medium">You must be authorized to access payment endpoints.</p>
           <Link to="/" className="text-brand font-bold hover:underline">Return to safety</Link>
         </div>
       </div>
@@ -114,18 +114,19 @@ const Payment = () => {
   if (!order) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center">
-        <p className="text-gray-500 font-bold mb-4">Validating transit token...</p>
+        <p className="text-gray-500 dark:text-gray-400 font-bold mb-4">Validating transit token...</p>
         <Link to="/order" className="text-brand font-bold hover:underline">Go to Orders</Link>
       </div>
     );
   }
 
   const appearance = {
-    theme: 'stripe',
+    theme: 'night',
     variables: {
       colorPrimary: '#14b8a6', // brand teal
-      colorBackground: '#ffffff',
-      colorText: '#1f2937', // gray-800
+      colorBackground: '#1f2937',
+      colorText: '#ffffff',
+      colorDanger: '#ef4444',
       fontFamily: 'Inter, system-ui, sans-serif',
       spacingUnit: '4px',
       borderRadius: '16px',
@@ -133,44 +134,44 @@ const Payment = () => {
   };
 
   return (
-    <div className="bg-gray-50 min-h-screen pb-20">
+    <div className="bg-transparent min-h-screen pb-10">
       <div className="max-w-4xl mx-auto px-4 py-12">
         <div className="flex items-center gap-4 mb-10">
-          <Link to="/checkout" className="p-2 bg-white border border-gray-200 rounded-xl text-gray-600 hover:text-brand transition-colors cursor-pointer">
+          <Link to="/checkout" className="p-2 bg-white dark:bg-gray-800/50 backdrop-blur-xl border border-gray-200 dark:border-white/5 rounded-xl text-gray-600 dark:text-gray-400 hover:text-brand transition-colors cursor-pointer">
             <ChevronLeft size={24} />
           </Link>
-          <h1 className="text-4xl font-black text-gray-900">Secure <span className="text-brand">Checkout</span></h1>
+          <h1 className="text-4xl font-black text-gray-900 dark:text-white">Secure <span className="text-brand">Checkout</span></h1>
         </div>
 
-        <div className="bg-white rounded-[3rem] p-8 md:p-12 shadow-xl border border-gray-100 grid md:grid-cols-2 gap-12">
+        <div className="bg-white dark:bg-gray-900/95 dark:backdrop-blur-2xl rounded-[3.5rem] p-8 md:p-12 shadow-xl border border-gray-100 dark:border-white/5 grid md:grid-cols-2 gap-12">
           
           {/* Order Summary Left Column */}
           <div className="space-y-8">
             <div>
               <p className="text-[10px] font-black text-brand uppercase tracking-widest mb-1">Transaction Ref</p>
-              <h3 className="text-xl font-bold text-gray-900 break-all">{order._id}</h3>
+              <h3 className="text-xl font-bold text-gray-900 dark:text-white break-all">{order._id}</h3>
             </div>
             
             <div className="space-y-4">
-              <h4 className="font-black text-gray-900 flex items-center gap-2"><CreditCard size={18}/> Order Manifest</h4>
-              <div className="p-6 bg-gray-50 rounded-3xl border border-gray-100 space-y-4 max-h-[300px] overflow-y-auto">
+              <h4 className="font-black text-gray-900 dark:text-white flex items-center gap-2"><CreditCard size={18}/> Order Manifest</h4>
+              <div className="p-6 bg-gray-50 dark:bg-white/5 rounded-3xl border border-gray-100 dark:border-white/5 space-y-4 max-h-[300px] overflow-y-auto scrollbar-hide">
                 {order.items.map((item, idx) => (
                   <div key={idx} className="flex justify-between items-center text-sm">
-                    <span className="font-bold text-gray-600">Package {idx + 1} &times; {item.quantity}</span>
-                    <span className="font-black text-gray-900 tracking-tighter">PRK {(item.price * item.quantity).toLocaleString()}</span>
+                    <span className="font-bold text-gray-600 dark:text-gray-400">Package {idx + 1} &times; {item.quantity}</span>
+                    <span className="font-black text-gray-900 dark:text-white tracking-tighter">PRK {(item.price * item.quantity).toLocaleString()}</span>
                   </div>
                 ))}
-                <div className="h-px bg-gray-200 w-full my-4" />
+                <div className="h-px bg-gray-200 dark:bg-white/5 w-full my-4" />
                 <div className="flex justify-between items-end">
-                  <span className="font-bold text-gray-400">Total Due</span>
+                  <span className="font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest text-[10px]">Total Due</span>
                   <span className="text-3xl font-black text-brand tracking-tighter">PKR {order.totalAmount.toLocaleString()}</span>
                 </div>
               </div>
             </div>
 
-            <div className="bg-brand/5 p-6 rounded-[2rem] border border-brand/10 flex items-center gap-4">
+            <div className="bg-brand/5 dark:bg-brand/10 p-6 rounded-[2rem] border border-brand/10 flex items-center gap-4">
               <ShieldCheck className="text-brand shrink-0" size={32} />
-              <p className="text-xs font-bold text-gray-600 leading-relaxed">
+              <p className="text-xs font-bold text-gray-600 dark:text-gray-400 leading-relaxed uppercase tracking-tight">
                 Tokens processed over TLS 1.3 AES-256 encryption. PCI-DSS Tier 1 standards enforced.
               </p>
             </div>
@@ -179,17 +180,18 @@ const Payment = () => {
           {/* Stripe Container Right Column */}
           <div>
             {networkError ? (
-              <div className="h-full flex flex-col justify-center text-center p-6 bg-red-50 text-red-600 rounded-3xl border border-red-100">
-                <p className="font-bold text-sm">{networkError}</p>
+              <div className="h-full flex flex-col justify-center text-center p-6 bg-red-50 dark:bg-red-950/30 text-red-600 dark:text-red-400 rounded-3xl border border-red-100 dark:border-red-900/50 shadow-sm">
+                <p className="font-black uppercase tracking-widest text-xs mb-2">Network Protocol Error</p>
+                <p className="font-bold text-sm leading-relaxed">{networkError}</p>
               </div>
             ) : clientSecret ? (
               <Elements options={{ clientSecret, appearance }} stripe={stripePromise}>
                 <CheckoutForm order={order} clientSecret={clientSecret} />
               </Elements>
             ) : (
-              <div className="h-full min-h-[300px] flex flex-col justify-center items-center gap-4 bg-gray-50 rounded-3xl border border-gray-100 animate-pulse">
-                <div className="h-10 w-10 border-4 border-brand/30 border-t-brand rounded-full animate-spin" />
-                <p className="font-bold text-gray-400 text-sm italic">Establishing secure connection...</p>
+              <div className="h-full min-h-[300px] flex flex-col justify-center items-center gap-4 bg-gray-50 dark:bg-white/5 rounded-3xl border border-gray-100 dark:border-white/5 animate-pulse">
+                <div className="h-10 w-10 border-4 border-brand/20 dark:border-white/10 border-t-brand rounded-full animate-spin" />
+                <p className="font-bold text-gray-400 dark:text-gray-500 text-sm italic uppercase tracking-widest">Establishing secure connection...</p>
               </div>
             )}
           </div>

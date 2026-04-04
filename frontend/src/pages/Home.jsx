@@ -27,7 +27,7 @@ const Home = () => {
       {/* Hero Section */}
       <section className="relative h-[600px] flex items-center overflow-hidden">
         <div className="absolute inset-0 z-0">
-          <div className="absolute inset-0 bg-gradient-to-r from-white via-white/80 to-transparent z-10" />
+          <div className="absolute inset-0 bg-gradient-to-r from-white via-white/80 to-transparent dark:from-black dark:via-black/80 dark:to-transparent z-10" />
           <img 
             src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=1200&auto=format&fit=crop" 
             alt="Hero Background"
@@ -40,11 +40,11 @@ const Home = () => {
             <span className="inline-block px-4 py-1.5 mb-5 text-sm font-bold tracking-widest text-brand uppercase bg-brand/10 rounded-full">
               New Collection 2026
             </span>
-            <h1 className="text-6xl md:text-7xl font-black text-gray-900 mb-6 leading-tight">
+            <h1 className="text-6xl md:text-7xl font-black text-gray-900 dark:text-white mb-6 leading-tight">
               Elevate Your <br />
               <span className="text-brand">Digital Life.</span>
             </h1>
-            <p className="text-xl text-gray-600 mb-10 leading-relaxed max-w-lg">
+            <p className="text-xl text-gray-600 dark:text-gray-400 mb-10 leading-relaxed max-w-lg">
               Discover the latest in premium electronics and accessories. 
               Designed for performance, built for style.
             </p>
@@ -57,7 +57,7 @@ const Home = () => {
               </Link>
               <Link 
                 to="/categories"
-                className="px-8 py-4 bg-white hover:bg-gray-100 text-gray-900 rounded-2xl font-bold text-lg border border-gray-200 transition-all"
+                className="px-8 py-4 bg-white dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-900 dark:text-white rounded-2xl font-bold text-lg border border-gray-200 dark:border-white/10 transition-all"
               >
                 View Categories
               </Link>
@@ -70,13 +70,13 @@ const Home = () => {
       <section className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {features.map((f, i) => (
-            <div key={i} className="flex items-center gap-5 p-8 bg-white rounded-3xl border border-gray-100 shadow-sm transition-all hover:shadow-lg hover:-translate-y-1">
+            <div key={i} className="flex items-center gap-5 p-8 bg-white dark:bg-gray-900/95 dark:backdrop-blur-2xl rounded-3xl border border-gray-100 dark:border-white/5 shadow-sm transition-all hover:shadow-lg hover:-translate-y-1">
               <div className="p-4 bg-brand/10 text-brand rounded-2xl">
                 <f.icon size={28} />
               </div>
               <div>
-                <h3 className="font-bold text-gray-900">{f.title}</h3>
-                <p className="text-sm text-gray-500">{f.desc}</p>
+                <h3 className="font-bold text-gray-900 dark:text-white">{f.title}</h3>
+                <p className="text-sm text-gray-500 dark:text-gray-400">{f.desc}</p>
               </div>
             </div>
           ))}
@@ -87,8 +87,8 @@ const Home = () => {
       <section className="container mx-auto px-4">
         <div className="flex justify-between items-end mb-10">
           <div>
-            <h2 className="text-4xl font-black text-gray-900 mb-2">Featured Products</h2>
-            <p className="text-gray-500">The most trending items this week</p>
+            <h2 className="text-4xl font-black text-gray-900 dark:text-white mb-2">Featured Products</h2>
+            <p className="text-gray-500 dark:text-gray-400">The most trending items this week</p>
           </div>
           <Link to="/products" className="group flex items-center gap-2 text-brand font-bold hover:underline underline-offset-4">
             View All <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
@@ -99,11 +99,11 @@ const Home = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {[...Array(8)].map((_, i) => (
               <div key={i} className="animate-pulse">
-                <div className="bg-white aspect-square rounded-[2rem] border border-gray-100 mb-4" />
+                <div className="bg-white dark:bg-gray-800/50 aspect-square rounded-[2rem] border border-gray-100 dark:border-white/5 mb-4" />
                 <div className="space-y-3 px-2">
-                  <div className="h-4 bg-gray-200 rounded-full w-3/4" />
-                  <div className="h-3 bg-gray-100 rounded-full w-1/2" />
-                  <div className="h-6 bg-gray-200 rounded-xl w-1/3" />
+                  <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded-full w-3/4" />
+                  <div className="h-3 bg-gray-100 dark:bg-gray-800 rounded-full w-1/2" />
+                  <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded-xl w-1/3" />
                 </div>
               </div>
             ))}
@@ -119,7 +119,7 @@ const Home = () => {
 
       {/* Categories Section (Simplified for now) */}
       <section className="container mx-auto px-4">
-        <div className="bg-gray-900 rounded-[3rem] p-12 md:p-20 relative overflow-hidden">
+        <div className="bg-gray-900 dark:bg-gray-800 rounded-[3rem] p-12 md:p-20 relative overflow-hidden">
           <div className="absolute top-0 right-0 w-1/3 h-full bg-brand/10 skew-x-12 transform translate-x-1/2" />
           <div className="relative z-10 max-w-2xl text-center md:text-left">
             <h2 className="text-4xl md:text-5xl font-black text-white mb-6">
@@ -130,7 +130,7 @@ const Home = () => {
               Don't miss out on our limited-time offers. Up to 40% off on selected headphones, 
               smartwatches, and premium accessories.
             </p>
-            <button className="px-8 py-4 bg-white hover:bg-gray-100 text-gray-900 rounded-2xl font-bold text-lg transition-all">
+            <button className="px-8 py-4 bg-white hover:bg-gray-100 text-gray-900 rounded-2xl font-bold text-lg transition-all cursor-pointer">
               Claim Your Discount
             </button>
           </div>

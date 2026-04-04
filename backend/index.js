@@ -1,9 +1,6 @@
 const express = require("express");
 const cors = require("cors");
-require("dotenv").config({ path: ".env.local" });
-require("dotenv").config(); // fallback to .env if needed
-
-
+require("dotenv").config();
 const connectDB = require("./config/db");
 const userRoutes = require("./routes/userRoutes");
 const productRoutes = require("./routes/productRoutes");
@@ -33,6 +30,10 @@ app.use("/api/auth", authRoutes);
 app.use("/api/cart", cartRoutes);
 
 app.use("/api/payment", paymentRoutes);
+
+app.get("/", (req, res) => {
+  res.send("Eco-commerce API is running...");
+});
 
 const PORT = process.env.PORT || 3000;
 
