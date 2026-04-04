@@ -1,12 +1,7 @@
 import axios from "axios";
 
-const getBaseURL = () => {
-  const url = import.meta.env.VITE_API_URL || "";
-  return url.endsWith("/") ? url.slice(0, -1) : url;
-};
-
 const instance = axios.create({
-  baseURL: getBaseURL(),
+  baseURL: import.meta.env.VITE_API_URL || "", // Empty for Vite proxy in dev, or direct URL in prod
 });
 
 // Add a request interceptor to include the auth token in all requests

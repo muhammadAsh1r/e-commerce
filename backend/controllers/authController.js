@@ -3,12 +3,8 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 const generateToken = (userId) => {
-  if (!process.env.JWT_SECRET) {
-    console.error("JWT_SECRET is missing in environment variables!");
-    throw new Error("Internal server configuration error");
-  }
   return jwt.sign({ id: userId }, process.env.JWT_SECRET, {
-    expiresIn: "7d", // Increased to 7 days for better user experience
+    expiresIn: "15m",
   });
 };
 
@@ -77,7 +73,7 @@ exports.loginUser = async (req, res) => {
       },
     });
   } catch (error) {
-    res.status(500).json({ message: "Login failed", error: error.message });
+    res.status(500).json({ message: "Login failed", error });
   }
 };
 

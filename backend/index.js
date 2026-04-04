@@ -10,11 +10,9 @@ const authRoutes = require("./routes/authRoutes");
 const cartRoutes = require("./routes/cartRoutes");
 const paymentRoutes = require("./routes/paymentRoutes");
 
-app.use(cors({
-  origin: "*",
-  methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"]
-}));
+const app = express();
+
+app.use(cors());
 app.use(express.json());
 
 connectDB();
@@ -39,14 +37,6 @@ app.get("/", (req, res) => {
 
 const PORT = process.env.PORT || 3000;
 
-app.get("/", (req, res) => {
-  res.status(200).json({ 
-    status: "healthy",
-    message: "TechStore API is operational",
-    timestamp: new Date().toISOString()
-  });
-});
-
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`Server running on port ${process.env.PORT}`);
 });
