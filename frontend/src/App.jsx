@@ -31,7 +31,7 @@ const App = () => {
   }, [dispatch]);
   return (
     <Router>
-      <div className="flex h-screen overflow-hidden bg-gray-50 font-sans">
+      <div className="flex h-screen overflow-hidden font-sans">
         <Sidebar />
         <main className="flex-1 overflow-y-auto overflow-x-hidden relative">
           <Routes>

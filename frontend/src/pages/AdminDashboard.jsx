@@ -55,7 +55,7 @@ const AdminDashboard = () => {
   };
 
   return (
-    <div className="bg-gray-50 min-h-screen pb-20">
+    <div className="min-h-screen pb-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="mb-12">
           <h1 className="text-5xl font-black text-gray-900 mb-2">Commerce <span className="text-brand">Command</span></h1>

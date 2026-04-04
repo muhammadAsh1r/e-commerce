@@ -54,7 +54,7 @@ const ProductDetails = () => {
   const images = product.images?.length > 0 ? product.images : ["https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=800"];
 
   return (
-    <div className="bg-gray-50 min-h-screen pb-20">
+    <div className="min-h-screen pb-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Breadcrumbs / Back navigation */}
         <Link to="/products" className="inline-flex items-center gap-2 text-gray-500 hover:text-brand font-bold mb-10 transition-colors group">
