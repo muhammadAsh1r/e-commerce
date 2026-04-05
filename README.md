@@ -7,7 +7,7 @@ A full-stack, responsive e-commerce application built with the MERN stack (Mongo
 - **Backend (API)**: [Render](https://e-commerce-4den.onrender.com)
 
 ## 🔐 Admin Credentials (Demo)
-- **Email**: `admin@gmail.com`
+- **Email**: `admin@shop.pro`
 - **Password**: `admin123`
 
 ## ✨ Features
